@@ -1,4 +1,6 @@
 export default {
+	isDetailsShown: true,
 	numberClientsConnected: 0,
-	skateparks: null
+	skateparks: null,
+	skateparkInFocus: 0
 };

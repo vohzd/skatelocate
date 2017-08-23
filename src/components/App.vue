@@ -1,12 +1,23 @@
 <template>
 	<div>
-		<router-view></router-view>
+		<router-view />
+		<details-panel v-if="isDetailsShown"/>
 	</div>
 </template>
 
 <script>
 	import { mapGetters }					from "vuex";
+	import DetailsPanel						from "./DetailsPanel.vue";
+
 	export default {
+		components: {
+			"details-panel": DetailsPanel
+		},
+		computed: {
+			...mapGetters([
+				"isDetailsShown"
+			])
+		}
 	}
 </script>
 
@@ -15,6 +26,7 @@
 	body {
 		margin: 0;
 		padding: 0;
+		width: 100%;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		font-family: 'Titillium Web', sans-serif;

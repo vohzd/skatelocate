@@ -39,7 +39,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      "setSkateparks"
+      "setSkateparks",
+      "setSkateparkInFocus"
     ]),
     addMapTiles(){
       L.tileLayer("https://api.mapbox.com/styles/v1/intheon/cippeqrwl003me9nliwhu6mtz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaW50aGVvbiIsImEiOiJjaW5lZ3RkaDUwMDc2d2FseHhldHl0Y3dyIn0.L1RWCbggwqkNegUc1ZIwJw")
@@ -56,8 +57,10 @@ export default {
         this.markercluster.addLayer(
           L.marker()
             .bindTooltip(v.skateparkName, { permanent: true })
-            .bindPopup("<p>YO</p>")
             .setLatLng([v.skateparkLocation[1], v.skateparkLocation[0]])
+            .on("click", () => {
+              this.setSkateparkInFocus(i)
+            })
         )
       });
       this.map.addLayer(this.markercluster);
@@ -85,6 +88,7 @@ export default {
 <style lang="scss">
   .skate-map {
     height: 100vh;
+    position: relative;
   }
 
   .leaflet-marker-shadow {
