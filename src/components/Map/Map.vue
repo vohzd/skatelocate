@@ -33,7 +33,7 @@ export default {
         .addTo(this.map);
     },
     initMap(){
-      this.map = L.map("map").setView([51.505, -0.09], 13);
+      this.map = L.map("map").setView([51.505, -0.09], 6);
       this.addMapTiles();
     }
   },
