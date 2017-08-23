@@ -1,6 +1,10 @@
-
 // LIBS
 import Vue 								from "vue";
+import Vuex 							from "vuex";
+import VueResource 				from "vue-resource";
+
+Vue.use(VueResource);
+
 import { sync }						from "vuex-router-sync";
 
 // STORE
