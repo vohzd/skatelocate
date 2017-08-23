@@ -14,6 +14,7 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "leaflet": "^1.2.0",
+    "leaflet.markercluster": "^1.0.6",
     "method-override": "^2.3.9",
     "moment": "^2.18.1",
     "mongoose": "^4.11.7",

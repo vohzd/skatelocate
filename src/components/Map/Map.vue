@@ -20,6 +20,10 @@ import moment                       from "moment";
  */
 import L                            from "leaflet";
 import                              "leaflet/dist/leaflet.css";
+import leafletMarkerCluster         from "leaflet.markercluster";
+import                              "leaflet.markercluster/dist/MarkerCluster.css";
+import                              "leaflet.markercluster/dist/MarkerCluster.Default.css";
+
 
 export default {
   computed: {
@@ -29,7 +33,8 @@ export default {
   },
   data(){
     return {
-      map: null
+      map: null,
+      markercluster: null
     }
   },
   methods: {
@@ -42,13 +47,20 @@ export default {
     },
     initMap(){
       this.map = L.map("map").setView([51.505, -0.09], 6);
+      this.markercluster = L.markerClusterGroup();
       this.addMapTiles();
       this.retreiveExistingSkateparks();
     },
     placeMarkers(){
       this.skateparks.forEach((v, i) => {
-        L.marker([v.skateparkLocation[1], v.skateparkLocation[0]]).addTo(this.map);
+        this.markercluster.addLayer(
+          L.marker()
+            .bindTooltip(v.skateparkName, { permanent: true })
+            .bindPopup("<p>YO</p>")
+            .setLatLng([v.skateparkLocation[1], v.skateparkLocation[0]])
+        )
       });
+      this.map.addLayer(this.markercluster);
     },
     retreiveExistingSkateparks(){
       this.$http.get("http://localhost:1337/skateparks")
@@ -59,6 +71,8 @@ export default {
   },
   mounted(){
     this.initMap();
+
+    console.log(leafletMarkerCluster);
   },
   watch: {
     skateparks(){
@@ -71,5 +85,9 @@ export default {
 <style lang="scss">
   .skate-map {
     height: 100vh;
+  }
+
+  .leaflet-marker-shadow {
+    display: none;
   }
 </style>
