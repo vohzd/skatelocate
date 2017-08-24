@@ -24,33 +24,46 @@ import leafletMarkerCluster         from "leaflet.markercluster";
 import                              "leaflet.markercluster/dist/MarkerCluster.css";
 import                              "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
+/*
+ * FIREBASE STUFF
+ */
+import instance                     from "../../config/firebaseConfig.js";
+const database                      = instance.database();
 
 export default {
   computed: {
     ...mapGetters([
+      "mapInstance",
+      "isMapDoubleClickAllowed",
       "skateparks"
     ])
   },
   data(){
     return {
-      map: null,
       markercluster: null
     }
   },
   methods: {
     ...mapActions([
-      "setSkateparks",
-      "setSkateparkInFocus"
+      "bindFirebase",
+      "setMapInstance",
+      "setSkateparkInFocus",
+      "setIsMapDoubleClickAllowed",
+      "setPendingNewParkLatLng"
     ]),
     addMapTiles(){
       L.tileLayer("https://api.mapbox.com/styles/v1/intheon/cippeqrwl003me9nliwhu6mtz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaW50aGVvbiIsImEiOiJjaW5lZ3RkaDUwMDc2d2FseHhldHl0Y3dyIn0.L1RWCbggwqkNegUc1ZIwJw")
-        .addTo(this.map);
+        .addTo(this.mapInstance);
+    },
+    destroyNewSkateParkListener(){
+      this.mapInstance.off("dblclick");
     },
     initMap(){
-      this.map = L.map("map").setView([51.505, -0.09], 6);
-      this.markercluster = L.markerClusterGroup();
+      this.setMapInstance(L.map("map").setView([51.505, -0.09], 6));
+      this.mapInstance.doubleClickZoom.disable();
+      //this.markercluster = L.markerClusterGroup();
       this.addMapTiles();
-      this.retreiveExistingSkateparks();
+      //this.retreiveExistingSkateparks();
     },
     placeMarkers(){
       this.skateparks.forEach((v, i) => {
@@ -63,23 +76,35 @@ export default {
             })
         )
       });
-      this.map.addLayer(this.markercluster);
+      this.mapInstance.addLayer(this.markercluster);
+    },
+    registerNewSkateparkListener(){
+      this.mapInstance.on("dblclick", (props) => {
+        this.setPendingNewParkLatLng(props.latlng);
+      });
     },
     retreiveExistingSkateparks(){
-      this.$http.get("http://localhost:1337/skateparks")
-        .then((res) => {
-          this.setSkateparks(res.body);
-        });
+      this.bindFirebase({
+        name: "skateparks",
+        ref: database.ref("skateparks")
+      })
     }
   },
   mounted(){
     this.initMap();
-
-    console.log(leafletMarkerCluster);
   },
   watch: {
     skateparks(){
-      this.placeMarkers();
+      //console.log(this.skateparks);
+      //this.placeMarkers();
+    },
+    isMapDoubleClickAllowed(){
+      if (this.isMapDoubleClickAllowed){
+        this.registerNewSkateparkListener();
+      }
+      else {
+        this.destroyNewSkateParkListener();
+      }
     }
   }
 }
@@ -90,6 +115,7 @@ export default {
     height: 100vh;
     position: relative;
   }
+
 
   .leaflet-marker-shadow {
     display: none;

@@ -1,10 +1,6 @@
 // LIBS
 import Vue 								from "vue";
-import Vuex 							from "vuex";
-import VueResource 				from "vue-resource";
-
-Vue.use(VueResource);
-
+import VuexFire 					from "vuex";
 import { sync }						from "vuex-router-sync";
 
 // STORE
