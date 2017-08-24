@@ -17,7 +17,14 @@
     <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
       <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
     </div>
-    <div class="form" v-show="currentAddSkateparkStep == 2">
+    <div class="mandatory-form" v-show="currentAddSkateparkStep == 2">
+
+      <section class="help-text">
+        <p>Please begin to fill out the mandatory information below.</p>
+        <p>Protip: You can drag the marker if you need to reposition.</p>
+        <p v-if="pendingNewParkLatLng">Current Lat/Long: {{ pendingNewParkLatLng.lat }} / {{ pendingNewParkLatLng.lng }}</p>
+      </section>
+
       <input type="text" name="skatepark-name" placeholder="Skatepark Name" />
       <textarea name="name" rows="8" cols="80" placeholder="Skatepark Desc"></textarea>
       <input type="text" name="skatepark-adder" placeholder="Your Name" />
@@ -101,6 +108,14 @@ export default {
   .add-skatepark-interface .step-label{
      font-size: 16px;
      display: inline;
+  }
+
+  .help-text {
+    margin-top: 32px;
+  }
+
+  .help-text p {
+    font-size: 14px;
   }
 
   .step {
