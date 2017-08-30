@@ -25,9 +25,9 @@
         <p v-if="pendingNewParkLatLng">Current Lat/Long: {{ pendingNewParkLatLng.lat }} / {{ pendingNewParkLatLng.lng }}</p>
       </section>
 
-      <input type="text" name="skatepark-name" placeholder="Skatepark Name" />
-      <textarea name="name" rows="8" cols="80" placeholder="Skatepark Desc"></textarea>
-      <input type="text" name="skatepark-adder" placeholder="Your Name" />
+      <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="skateparkName" />
+      <textarea name="name" rows="8" cols="80" placeholder="Skatepark Desc" v-model="skateparkDesc"></textarea>
+      <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="skateparkAdder"/>
       <div class="available-tags">
         <div class="tag">Indoor</div>
         <div class="tag">Outdoor</div>
@@ -35,7 +35,7 @@
         <div class="tag">Wooden</div>
       </div>
       <input type="file" name="skatepark-images"  />
-      <input type="button" value="submit" />
+      <input type="button" value="submit" v-on:click="addPark"/>
     </div>
   </section>
 </template>
@@ -43,6 +43,9 @@
 <script>
 import { mapActions, mapGetters }   from "vuex";
 import moment                       from "moment";
+
+import instance                     from "../../config/firebaseConfig.js";
+const database                      = instance.database();
 
 export default {
   computed: {
@@ -55,6 +58,10 @@ export default {
   },
   data(){
     return {
+      skateparkAdder: "",
+      skateparkDesc: "",
+      skateparkName: "",
+      tempMarker: null
     }
   },
   beforeDestroy(){
@@ -65,10 +72,34 @@ export default {
     ...mapActions([
       "changeCursorTo",
       "setCurrentStep",
-      "setIsMapDoubleClickAllowed"
+      "setIsMapDoubleClickAllowed",
+      "setPendingNewParkLatLng"
     ]),
+    addPark(){
+      if (this.skateparkAdder && this.skateparkDesc && this.skateparkName){
+        database.ref("skateparks").push({
+          skateparkAdder: this.skateparkAdder,
+          skateparkDesc: this.skateparkDesc,
+          skateparkLocation: [this.pendingNewParkLatLng.lat, this.pendingNewParkLatLng.lng],
+          skateparkName: this.skateparkName,
+          timeAdded: Date.now()
+        });
+        this.clearForm();
+      }
+
+    },
+    clearForm(){
+      this.skateparkAdder = "";
+      this.skateparkDesc = "";
+      this.skateparkName = "";
+      this.setPendingNewParkLatLng(null);
+      this.setCurrentStep(1);
+      this.changeCursorTo("marker-cursor");
+      this.setIsMapDoubleClickAllowed(true);
+      this.tempMarker.remove();
+    },
     createTempMarker(){
-        L.marker(this.pendingNewParkLatLng).addTo(this.mapInstance)
+      this.tempMarker = L.marker(this.pendingNewParkLatLng).addTo(this.mapInstance);
     }
   },
   mounted(){

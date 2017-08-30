@@ -6,6 +6,6 @@ export default {
 	pendingNewParkLatLng: null,
 	numberClientsConnected: 0,
 	mapInstance: null,
-	skateparks: null,
+	skateparks: [],
 	skateparkInFocus: 0
 };

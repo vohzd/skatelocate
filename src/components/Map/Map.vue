@@ -40,6 +40,7 @@ export default {
   },
   data(){
     return {
+      markers: [],
       markercluster: null
     }
   },
@@ -55,27 +56,34 @@ export default {
       L.tileLayer("https://api.mapbox.com/styles/v1/intheon/cippeqrwl003me9nliwhu6mtz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaW50aGVvbiIsImEiOiJjaW5lZ3RkaDUwMDc2d2FseHhldHl0Y3dyIn0.L1RWCbggwqkNegUc1ZIwJw")
         .addTo(this.mapInstance);
     },
+    createMarker(marker){
+      return L.marker()
+                  .bindTooltip(marker.skateparkName, { permanent: true })
+                  .setLatLng([marker.skateparkLocation[0], marker.skateparkLocation[1]])
+                  .on("click", () => {
+                    this.setSkateparkInFocus(i)
+                  })
+    },
     destroyNewSkateParkListener(){
       this.mapInstance.off("dblclick");
     },
     initMap(){
       this.setMapInstance(L.map("map").setView([51.505, -0.09], 6));
       this.mapInstance.doubleClickZoom.disable();
-      //this.markercluster = L.markerClusterGroup();
+      this.markercluster = L.markerClusterGroup();
       this.addMapTiles();
-      //this.retreiveExistingSkateparks();
+      this.retreiveExistingSkateparks();
     },
     placeMarkers(){
-      this.skateparks.forEach((v, i) => {
-        this.markercluster.addLayer(
-          L.marker()
-            .bindTooltip(v.skateparkName, { permanent: true })
-            .setLatLng([v.skateparkLocation[1], v.skateparkLocation[0]])
-            .on("click", () => {
-              this.setSkateparkInFocus(i)
-            })
-        )
+      // always start with a fresh set
+      this.markercluster.removeLayers(this.markers);
+      this.mapInstance.removeLayer(this.markercluster);
+      this.markers = [];
+      // create, push, and append
+      this.skateparks.forEach((marker, i) => {
+        this.markers.push(this.createMarker(marker))
       });
+      this.markercluster.addLayers(this.markers);
       this.mapInstance.addLayer(this.markercluster);
     },
     registerNewSkateparkListener(){
@@ -95,8 +103,7 @@ export default {
   },
   watch: {
     skateparks(){
-      //console.log(this.skateparks);
-      //this.placeMarkers();
+      this.placeMarkers();
     },
     isMapDoubleClickAllowed(){
       if (this.isMapDoubleClickAllowed){
