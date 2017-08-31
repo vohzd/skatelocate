@@ -38,7 +38,7 @@ export default {
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		font-family: 'Titillium Web', sans-serif;
-		color: #8c829b;
+		color: #45414a;
 		background: #ffffff;
 		font-size: 18px;
 	}
@@ -48,9 +48,9 @@ export default {
 	}
 
 	.marker-cursor {
-		cursor: url("../assets/marker.png") 0 50, auto !important;
+		cursor: url("../assets/img/marker.png") 0 50, auto !important;
 	}
-	
+
 	h1, h2, h3, h4, h5, h6, p, ul, li {
 		margin: 0;
 		padding: 0;

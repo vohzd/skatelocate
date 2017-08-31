@@ -2,31 +2,31 @@
   <nav class="right-hand-vertical">
   	<router-link class="router-link" to="/about" tag="div">
       <div class="vertical-button">
-        <div class="label">About</div>
+        <div class="label">ABOUT</div>
         <i class="fa fa-home" aria-hidden="true"></i>
       </div>
     </router-link>
   	<router-link class="router-link" to="/search" tag="div">
       <div class="vertical-button">
-        <div class="label">Search</div>
+        <div class="label">SEARCH</div>
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
     </router-link>
     <router-link class="router-link" to="/add" tag="div">
       <div class="vertical-button">
-        <div class="label">Add</div>
+        <div class="label">ADD</div>
         <i class="fa fa-plus" aria-hidden="true"></i>
       </div>
     </router-link>
   	<router-link class="router-link" to="/top" tag="div">
       <div class="vertical-button">
-        <div class="label">Top</div>
+        <div class="label">TOP</div>
         <i class="fa fa-line-chart" aria-hidden="true"></i>
       </div>
     </router-link>
   	<router-link class="router-link" to="/recent" tag="div">
       <div class="vertical-button">
-        <div class="label">Recent</div>
+        <div class="label">RECENT</div>
         <i class="fa fa-star-o" aria-hidden="true"></i>
       </div>
     </router-link>
@@ -46,8 +46,12 @@ export default {
     top: 0;
     height: 100vh;
     width: 48px;
-    background: rgba(0,0,0,0.2);
+    background: #363138;
     z-index: 9000;
+  }
+
+  .router-link-active {
+    background: #251f28;
   }
 
   .vertical-button {
@@ -57,23 +61,26 @@ export default {
     text-align: center;
     margin-bottom: 24px;
     line-height: 48px;
+    color: #565158;
   }
 
   .vertical-button:hover {
-    background: rgba(0,0,0,0.05);
+    background: #251f28;
+    color: #746b78;
+    cursor: pointer;
   }
 
   .vertical-button .label {
     position: absolute;
-    margin-left: -64px;
+    margin-left: -72px;
+    text-align: center;
     display:none;
-    font-size: 16px;
-    background: rgba(0,0,0,0.1);
-    width: 64px;
+    font-size: 14px;
+    background: #251f28;
+    width: 72px;
     z-index: 4;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-
+    color: #908694;
+    font-weight: 500;
   }
 
   .vertical-button:hover .label {

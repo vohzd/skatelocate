@@ -10,9 +10,6 @@
       <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 3}">
         <div class="step-label">Optional Images</div>
       </li>
-      <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 4}">
-        <div class="step-label" >Submit</div>
-      </li>
     </ol>
     <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
       <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
@@ -133,7 +130,7 @@ export default {
      font-size: 32px;
      padding: 0px;
      margin: 0;
-     width: 25%;
+     width: 33%;
   }
 
   .add-skatepark-interface .step-label{
