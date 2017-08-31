@@ -4,7 +4,7 @@
 		<!-- main persistent map -->
 		<leaflet-map />
 		<!-- actually the details panel -->
-		<router-view class="details-panel"/>
+		<router-view class="details-panel" v-bind:class="{ 'hide-panel' : !isDetailsShown }"/>
 		<!-- persistent right-hand nav -->
 		<navigation-panel />
 	</div>
@@ -22,7 +22,8 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			"currentCursor"
+			"currentCursor",
+			"isDetailsShown"
 		])
 	}
 }
@@ -37,10 +38,11 @@ export default {
 		width: 100%;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		font-family: 'Titillium Web', sans-serif;
+		font-family: 'Kalam', sans-serif;
 		color: #45414a;
 		background: #ffffff;
 		font-size: 18px;
+		overflow: hidden;
 	}
 
 	.leaflet-grab {
@@ -67,19 +69,80 @@ export default {
 		color: #82718e;
 	}
 
+	p {
+		font-size: 15px;
+		font-weight: 100;
+	}
+
+	.block-header {
+		height: 64px;
+		font-size: 32px;
+		background: #251f28;
+    color: #746b78;
+	}
+
+
+
+	.block-header h3 {
+		line-height: 64px;
+		font-size: 32px;
+	}
+
 	.details-panel {
-		background: white;
+		background: rgba(255,255,255,0.9);
 		position: absolute;
 		height: 100vh;
 		z-index: 6000;
 		top: 0;
 		right: 0;
-		width: 44%;
-		padding: 12px;
-		padding-right: 56px;
+		width: 900px;
+		margin-right: 48px;
+		transition: 0.5s all;
 	}
 
-	.details-panel h4 {
-		font-size: 30px;
+	.hide-panel {
+		margin-right:-852px;
+		transition: 0.5s all;
 	}
+
+	.section-content {
+		padding: 8px;
+	}
+
+	.toggle-nav-element {
+		position: absolute;
+		top: 0;
+		left: -64px;
+		width: 64px;
+		height: 64px;
+		line-height: 64px;
+		background: #251f28;
+		color: #565158;
+		text-align: center;
+	}
+
+	.toggle-nav-element:hover {
+		cursor: pointer;
+		color: #746b78;
+	}
+
+	@media(max-width: 1320px){
+		.details-panel{
+			width: 500px;
+		}
+	}
+
+	@media(max-width: 1020px){
+		.details-panel{
+			width: 400px;
+		}
+	}
+
+	@media(max-width: 720px){
+		.details-panel{
+			width: 250px;
+		}
+	}
+
+
 </style>

@@ -1,50 +1,60 @@
 <template lang="html">
-  <section class="add-skatepark-interface">
-    <ol class="steps-status">
-      <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 1}">
-        <div class="step-label">Select Location</div>
-      </li>
-      <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 2}">
-        <div class="step-label">Mandatory Info</div>
-      </li>
-      <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 3}">
-        <div class="step-label">Optional Images</div>
-      </li>
-    </ol>
-    <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
-      <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
-    </div>
-    <div class="mandatory-form" v-show="currentAddSkateparkStep == 2">
-
-      <section class="help-text">
-        <p>Please begin to fill out the mandatory information below.</p>
-        <p>Protip: You can drag the marker if you need to reposition.</p>
-        <p v-if="pendingNewParkLatLng">Current Lat/Long: {{ pendingNewParkLatLng.lat }} / {{ pendingNewParkLatLng.lng }}</p>
-      </section>
-
-      <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="skateparkName" />
-      <textarea name="name" rows="8" cols="80" placeholder="Skatepark Desc" v-model="skateparkDesc"></textarea>
-      <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="skateparkAdder"/>
-      <div class="available-tags">
-        <div class="tag">Indoor</div>
-        <div class="tag">Outdoor</div>
-        <div class="tag">Concrete</div>
-        <div class="tag">Wooden</div>
+  <div>
+    <header class="block-header">
+      <toggle-nav-panel />
+      <h3>ADD NEW</h3>
+    </header>
+    <section class="add-skatepark-interface section-content">
+      <ol class="steps-status">
+        <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 1}">
+          <div class="step-label">Select Location</div>
+        </li>
+        <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 2}">
+          <div class="step-label">Mandatory Info</div>
+        </li>
+        <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 3}">
+          <div class="step-label">Optional Images</div>
+        </li>
+      </ol>
+      <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
+        <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
       </div>
-      <input type="file" name="skatepark-images"  />
-      <input type="button" value="submit" v-on:click="addPark"/>
-    </div>
-  </section>
+      <div class="mandatory-form" v-show="currentAddSkateparkStep == 2">
+
+        <section class="help-text">
+          <p>Please begin to fill out the mandatory information below.</p>
+          <p>Protip: You can drag the marker if you need to reposition.</p>
+          <p v-if="pendingNewParkLatLng">Current Lat/Long: {{ pendingNewParkLatLng.lat }} / {{ pendingNewParkLatLng.lng }}</p>
+        </section>
+
+        <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="skateparkName" />
+        <textarea name="name" rows="8" cols="80" placeholder="Skatepark Desc" v-model="skateparkDesc"></textarea>
+        <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="skateparkAdder"/>
+        <div class="available-tags">
+          <div class="tag">Indoor</div>
+          <div class="tag">Outdoor</div>
+          <div class="tag">Concrete</div>
+          <div class="tag">Wooden</div>
+        </div>
+        <input type="file" name="skatepark-images"  />
+        <input type="button" value="submit" v-on:click="addPark"/>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
-import { mapActions, mapGetters }   from "vuex";
-import moment                       from "moment";
+import { mapActions, mapGetters }               from "vuex";
 
-import instance                     from "../../config/firebaseConfig.js";
-const database                      = instance.database();
+import toggleNavPanel                           from "../ToggleNavPanel.vue";
+
+import instance                                 from "../../config/firebaseConfig.js";
+const database                                  = instance.database();
 
 export default {
+  components: {
+    "toggle-nav-panel": toggleNavPanel
+  },
   computed: {
     ...mapGetters([
       "currentAddSkateparkStep",

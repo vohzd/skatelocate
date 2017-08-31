@@ -21,5 +21,8 @@ export default {
   },
   SET_SKATEPARK_IN_FOCUS(state, position){
     state.skateparkInFocus = position;
+  },
+  TOGGLE_DETAILS_PANEL_VISIBILITY(state){
+    state.isDetailsShown = !state.isDetailsShown;
   }
 };

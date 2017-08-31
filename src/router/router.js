@@ -10,19 +10,40 @@ import Recent 				        	from "../components/Recent/Recent.vue";
 import Search 				          from "../components/Search/Search.vue";
 import Top 				        			from "../components/Top/Top.vue";
 
+
+/*
+import mutations 								from "../vuex/mutations.js";
+import getters 									from "../vuex/getters.js";
+import state 									from "../vuex/state.js";
+
+*/
+
+import store 	from "../vuex/store.js";
+
+
+
 // define routes
 const routes = [
-	{ path: "/", redirect: "/about"},
-	{ path: "/about", component: About},
+	{ path: "/", component: About},
 	{ path: "/add", component: Add},
 	{ path: "/recent", component: Recent},
 	{ path: "/search", component: Search},
 	{ path: "/top", component: Top}
 ];
 
-// initialise & export Instance
-export default new VueRouter({
+const router = new VueRouter({
 	base: __dirname + "/",
 	mode: 'history',
 	routes
-});;
+});
+
+router.beforeEach((to, from, next) => {
+	if (!store.getters.isDetailsShown){
+		store.commit("TOGGLE_DETAILS_PANEL_VISIBILITY")
+	}
+
+	next()
+});
+
+// initialise & export Instance
+export default router;

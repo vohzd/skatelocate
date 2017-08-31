@@ -1,17 +1,29 @@
 <template lang="html">
   <section>
-    <h4>Recent</h4>
+    <header class="block-header">
+      <toggle-nav-panel />
+      <h3>RECENTLY ADDED</h3>
+    </header>
+    <section class="section-content">
+      <p>Content here</p>
+    </section>
   </section>
 </template>
 
 <script>
-import { mapGetters }               from "vuex";
-import moment                       from "moment";
+import { mapActions, mapGetters }               from "vuex";
+import toggleNavPanel                           from "../ToggleNavPanel.vue";
 
 export default {
+  components: {
+    "toggle-nav-panel": toggleNavPanel
+  },
   data(){
     return {
     }
+  },
+  methods: {
+
   }
 }
 </script>

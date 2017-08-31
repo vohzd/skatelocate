@@ -29,5 +29,8 @@ export default {
   },
   setSkateparkInFocus({commit}, position){
     commit("SET_SKATEPARK_IN_FOCUS", position);
+  },
+  toggleDetailsPanelVisibility({commit}){
+    commit("TOGGLE_DETAILS_PANEL_VISIBILITY");
   }
 };

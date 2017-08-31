@@ -1,6 +1,6 @@
 <template lang="html">
   <nav class="right-hand-vertical">
-  	<router-link class="router-link" to="/about" tag="div">
+  	<router-link class="router-link" to="/" tag="div">
       <div class="vertical-button">
         <div class="label">ABOUT</div>
         <i class="fa fa-home" aria-hidden="true"></i>
@@ -34,7 +34,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  methods: {
+  }
 }
 </script>
 
@@ -50,17 +54,16 @@ export default {
     z-index: 9000;
   }
 
-  .router-link-active {
+  .router-link-exact-active {
     background: #251f28;
   }
 
   .vertical-button {
     width: 48px;
-    height: 48px;
+    height: 64px;
     font-size: 24px;
     text-align: center;
-    margin-bottom: 24px;
-    line-height: 48px;
+    line-height: 64px;
     color: #565158;
   }
 
@@ -78,6 +81,7 @@ export default {
     font-size: 14px;
     background: #251f28;
     width: 72px;
+    height: 64px;
     z-index: 4;
     color: #908694;
     font-weight: 500;
