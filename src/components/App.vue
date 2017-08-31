@@ -130,17 +130,28 @@ export default {
 		.details-panel{
 			width: 500px;
 		}
+
+		.hide-panel {
+			margin-right:-452px;
+		}
 	}
 
 	@media(max-width: 1020px){
 		.details-panel{
 			width: 400px;
 		}
+		.hide-panel {
+			margin-right:-352px;
+		}
 	}
 
 	@media(max-width: 720px){
 		.details-panel{
 			width: 250px;
+		}
+
+		.hide-panel {
+			margin-right:-202px;
 		}
 	}
 
