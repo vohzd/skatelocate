@@ -1,6 +1,7 @@
 import state from "./state.js";
 
 export default {
+	availableSkateparkTags: (state) => state.availableSkateparkTags,
 	currentAddSkateparkStep: (state) => state.currentAddSkateparkStep,
 	currentCursor: (state) => state.currentCursor,
 	isDetailsShown: (state) => state.isDetailsShown,
