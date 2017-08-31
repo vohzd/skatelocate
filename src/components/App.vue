@@ -45,6 +45,10 @@ export default {
 		overflow: hidden;
 	}
 
+	input, textarea {
+		font-family: 'Kalam', sans-serif;
+	}
+
 	.leaflet-grab {
 		cursor: inherit;
 	}

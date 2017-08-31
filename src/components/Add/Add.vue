@@ -27,18 +27,50 @@
           <p v-if="pendingNewParkLatLng">Current Lat/Long: {{ pendingNewParkLatLng.lat }} / {{ pendingNewParkLatLng.lng }}</p>
         </section>
 
-        <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="skateparkName" />
-        <textarea name="name" rows="8" cols="80" placeholder="Skatepark Desc" v-model="skateparkDesc"></textarea>
-        <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="skateparkAdder"/>
-        <div class="available-tags">
-          <div class="tag">Indoor</div>
-          <div class="tag">Outdoor</div>
-          <div class="tag">Concrete</div>
-          <div class="tag">Wooden</div>
+        <div class="mandatory-form-fields">
+          <div class="field">
+            <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="skateparkName" />
+          </div>
+          <div class="field">
+            <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="skateparkAdder"/>
+          </div>
+          <div class="field">
+            <textarea name="name" placeholder="Skatepark Description" v-model="skateparkDesc" resizeable="false"></textarea>
+          </div>
+          <div class="field">
+            <div class="available-tags">
+              <div class="tag">Indoor</div>
+              <div class="tag">Outdoor</div>
+              <div class="tag">Concrete</div>
+              <div class="tag">Wooden</div>
+            </div>
+          </div>
         </div>
-        <input type="file" name="skatepark-images"  />
-        <input type="button" value="submit" v-on:click="addPark"/>
+
+        <div class="side-by-side">
+          <div class="col">
+            <input type="button" value="SUBMIT" v-on:click="addPark"/>
+          </div>
+          <div class="col">
+            <input type="button" value="NEXT" v-on:click="goToStep(3)"/>
+          </div>
+        </div>
+
       </div>
+
+      <div class="mandatory-form" v-show="currentAddSkateparkStep == 3">
+        <input type="file" name="skatepark-images"  />
+
+        <div class="side-by-side">
+          <div class="col">
+            <input type="button" value="BACK" v-on:click="goToStep(2)"/>
+          </div>
+          <div class="col">
+            <input type="button" value="SUBMIT" v-on:click="addPark"/>
+          </div>
+        </div>
+      </div>
+
     </section>
   </div>
 </template>
@@ -93,7 +125,6 @@ export default {
         });
         this.clearForm();
       }
-
     },
     clearForm(){
       this.skateparkAdder = "";
@@ -107,6 +138,9 @@ export default {
     },
     createTempMarker(){
       this.tempMarker = L.marker(this.pendingNewParkLatLng).addTo(this.mapInstance);
+    },
+    goToStep(step){
+      this.setCurrentStep(step)
     }
   },
   mounted(){
@@ -128,14 +162,14 @@ export default {
 
 <style lang="css">
 
-  .add-skatepark-interface ol{
+  .steps-status{
      padding: 0;
      margin: 0;
      display: flex;
      flex-wrap: wrap;
   }
 
-  .add-skatepark-interface li{
+   .steps-status li{
      list-style-position: inside;
      font-size: 32px;
      padding: 0px;
@@ -143,9 +177,44 @@ export default {
      width: 33%;
   }
 
+
+
+  .mandatory-form-fields {
+    margin: 0;
+    padding: 0;
+  }
+
+  .mandatory-form-fields .field{
+    margin-bottom: 8px;
+  }
+
+
   .add-skatepark-interface .step-label{
      font-size: 16px;
      display: inline;
+  }
+
+  .mandatory-form input[type="text"], textarea{
+    width: calc(100% - 8px);
+    line-height: 32px;
+    outline: none;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    font-size: 16px;
+    margin:0px;
+  }
+
+  .mandatory-form input[type="text"]:active, textarea:active{
+    background: rgba(107, 175, 126, 0.4);
+  }
+
+  .mandatory-form input[type="text"]:focus, textarea:focus{
+    background: rgba(107, 175, 126, 0.4);
+  }
+
+  .mandatory-form textarea {
+    resize: none;
   }
 
   .help-text {
@@ -158,30 +227,67 @@ export default {
 
   .step {
     background: rgba(0,0,0,0.05);
-    font-size: 14px;
+    font-size: 12px;
+    text-align: center;
   }
 
   .step-selected {
-    background: rgba(0,0,0,0.1);
+    background: rgba(107, 175, 126, 0.4);
+  }
+
+  .side-by-side {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .side-by-side .col {
+    float: left;
+    width: 50%;
+  }
+
+  .side-by-side .col input{
+    width: calc(100% - 16px);
+    height: 64px;
+    border: none;
+  }
+
+  .side-by-side .col input:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    background: rgba(107, 175, 126, 0.4);
+
   }
 
   .intro-instructions {
     margin-top: 32px;
   }
 
+  .tag {
+    display: inline;
+    font-size: 12px;
+    background: rgba(0,0,0,0.1);
+    padding: 8px;
+    border-radius: 16px;
+    line-height: 12px;
+  }
+
+  .tag:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+
   @media(max-width: 1320px){
-    .add-skatepark-interface li{
-       width: 50%;
+    .steps-status li{
+       width: 100%;
+       font-size: 26px;
     }
   }
 
   @media(max-width: 768px){
-    .add-skatepark-interface li{
-       width: 100%;
-       font-size: 26px;
-    }
-    .add-skatepark-interface .step-label{
-       font-size: 18px;
+    .steps-status li{
+       font-size: 16px;
     }
   }
 
