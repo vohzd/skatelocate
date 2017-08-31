@@ -31,13 +31,13 @@
       <div class="mandatory-form" v-show="currentAddSkateparkStep == 2">
         <div class="mandatory-form-fields">
           <div class="field">
-            <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="skateparkName" />
+            <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="mandatoryInfo.skateparkName" />
           </div>
           <div class="field">
-            <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="skateparkAdder"/>
+            <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="mandatoryInfo.skateparkAdder"/>
           </div>
           <div class="field">
-            <textarea name="name" placeholder="Skatepark Description" v-model="skateparkDesc" resizeable="false"></textarea>
+            <textarea name="name" placeholder="Skatepark Description" v-model="mandatoryInfo.skateparkDesc" resizeable="false"></textarea>
           </div>
           <div class="field">
             <div class="available-tags">
@@ -60,10 +60,10 @@
         </section>
         <div class="side-by-side">
           <div class="col">
-            <input type="button" value="SUBMIT" v-on:click="addPark"/>
+            <input type="button" value="SUBMIT" v-on:click="addPark" v-bind:disabled="!canProceed" />
           </div>
           <div class="col">
-            <input type="button" value="NEXT" v-on:click="goToStep(3)"/>
+            <input type="button" value="NEXT" v-on:click="goToStep(3)" v-bind:disabled="!canProceed"/>
           </div>
         </div>
 
@@ -109,10 +109,13 @@ export default {
   },
   data(){
     return {
-      skateparkAdder: "",
-      skateparkDesc: "",
-      skateparkName: "",
-      selectedTags: [],
+      canProceed: false,
+      mandatoryInfo: {
+        skateparkAdder: "",
+        skateparkDesc: "",
+        skateparkName: "",
+        selectedTags: []
+      },
       tempMarker: null
     }
   },
@@ -152,11 +155,19 @@ export default {
     createTempMarker(){
       this.tempMarker = L.marker(this.pendingNewParkLatLng).addTo(this.mapInstance);
     },
+    determineIfAllFieldsCompleted(){
+      if (this.mandatoryInfo.skateparkAdder && this.mandatoryInfo.skateparkDesc && this.mandatoryInfo.skateparkName && this.mandatoryInfo.selectedTags.length != 0){
+        this.canProceed = true;
+      }
+      else {
+        this.canProceed = false;
+      }
+    },
     goToStep(step){
       this.setCurrentStep(step)
     },
     isTagInArray(tag){
-      let index = this.selectedTags.indexOf(tag);
+      let index = this.mandatoryInfo.selectedTags.indexOf(tag);
       if (index === -1){
         return false;
       }
@@ -170,11 +181,11 @@ export default {
     toggleThisTag(tag){
       let test = this.isTagInArray(tag);
       if (!test){
-        this.selectedTags.push(tag);
+        this.mandatoryInfo.selectedTags.push(tag);
       }
       else {
-        let pos = this.selectedTags.indexOf(tag);
-        this.selectedTags.splice(pos, 1);
+        let pos = this.mandatoryInfo.selectedTags.indexOf(tag);
+        this.mandatoryInfo.selectedTags.splice(pos, 1);
       }
     }
   },
@@ -189,6 +200,12 @@ export default {
         this.createTempMarker();
         this.setIsMapDoubleClickAllowed(false);
         this.setCurrentStep(2);
+      }
+    },
+    mandatoryInfo: {
+      deep: true,
+      handler(){
+        this.determineIfAllFieldsCompleted();
       }
     }
   }
@@ -301,7 +318,11 @@ export default {
     cursor: pointer;
     opacity: 0.8;
     background: rgba(107, 175, 126, 0.4);
+  }
 
+  .side-by-side .col input:disabled:hover{
+    cursor: not-allowed;
+    background: rgba(2555, 2555, 2555, 0.03)
   }
 
   .intro-instructions {
