@@ -69,17 +69,11 @@
 
       </div>
 
-      <div class="mandatory-form" v-show="currentAddSkateparkStep == 3">
-        <input type="file" name="skatepark-images"  />
+      <div class="optional-form" id="cloudinary-interface" v-show="currentAddSkateparkStep == 3">
+      </div>
 
-        <div class="side-by-side">
-          <div class="col">
-            <input type="button" value="BACK" v-on:click="goToStep(2)"/>
-          </div>
-          <div class="col">
-            <input type="button" value="SUBMIT" v-on:click="addPark"/>
-          </div>
-        </div>
+      <div class="status-results" v-show="currentAddSkateparkStep == 4">
+        Uploading...
       </div>
 
     </section>
@@ -110,13 +104,16 @@ export default {
   data(){
     return {
       canProceed: false,
+      imagesToUpload: null,
       mandatoryInfo: {
         skateparkAdder: "",
         skateparkDesc: "",
         skateparkName: "",
         selectedTags: []
       },
-      tempMarker: null
+      cloudinaryImageURLs: [],
+      tempMarker: null,
+      unparsedURLs: ""
     }
   },
   beforeDestroy(){
@@ -136,6 +133,7 @@ export default {
           skateparkAdder: this.skateparkAdder,
           skateparkDesc: this.skateparkDesc,
           skateparkLocation: [this.pendingNewParkLatLng.lat, this.pendingNewParkLatLng.lng],
+          skateparkImages: this.cloudinaryImageURLs,
           skateparkName: this.skateparkName,
           timeAdded: Date.now()
         });
@@ -153,7 +151,10 @@ export default {
       this.tempMarker.remove();
     },
     createTempMarker(){
-      this.tempMarker = L.marker(this.pendingNewParkLatLng).addTo(this.mapInstance);
+      this.tempMarker = L.marker(this.pendingNewParkLatLng, {draggable: true}).addTo(this.mapInstance);
+      this.tempMarker.on("move", (props) => {
+        this.setPendingNewParkLatLng(props.latlng);
+      })
     },
     determineIfAllFieldsCompleted(){
       if (this.mandatoryInfo.skateparkAdder && this.mandatoryInfo.skateparkDesc && this.mandatoryInfo.skateparkName && this.mandatoryInfo.selectedTags.length != 0){
@@ -178,6 +179,24 @@ export default {
     isStepGreaterThan(step){
       return this.currentAddSkateparkStep > step;
     },
+    initCloudinaryUploadWidget(){
+      cloudinary.openUploadWidget(
+        {
+          cloud_name: "lgycbktyo",
+          upload_preset: "p0cxg2v9",
+          inline_container: document.getElementById("cloudinary-interface"),
+          theme: "white",
+          show_powered_by: false
+        },
+        (err, res) => {
+          // todo error handling
+          this.setImageUrls(res)
+            .then(() => {
+              this.addPark();
+            });
+          console.log(res);
+        });
+    },
     toggleThisTag(tag){
       let test = this.isTagInArray(tag);
       if (!test){
@@ -192,6 +211,7 @@ export default {
   mounted(){
     this.changeCursorTo("marker-cursor");
     this.setIsMapDoubleClickAllowed(true);
+    this.initCloudinaryUploadWidget();
   },
   watch: {
     pendingNewParkLatLng(){
@@ -287,6 +307,7 @@ export default {
   .mandatory-form input[type="text"]:focus, textarea:focus{
     background: rgba(107, 175, 126, 0.4);
   }
+
 
   .mandatory-form textarea {
     resize: none;

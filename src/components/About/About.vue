@@ -14,16 +14,12 @@
 
       <p>Built by Ben Smith <a href="https://vohzd.github.io" target="_blank">(vohzd)</a> - Give me a shout if you've any feedback! Thanks!</p>
       <div class="image-grid">
-        <div class="one-column one">
+        <div class="one-column two">
           <a href="https://github.com/vohzd"target="_blank"><div class="row gh"><img src="../../assets/img/github.png" class="social-img"></div></a>
           <a href="https://uk.linkedin.com/in/ben-smith-493678a2"target="_blank"><div class="row li"><img src="../../assets/img/linkedin.png" class="social-img"></div></a>
           <a href="https://twitter.com/intheon"target="_blank"><div class="row tw"><img src="../../assets/img/twitter.png" class="social-img"></div></a>
         </div>
-        <div class="one-column three">
-          <a href="https://vohzd.github.io" target="_blank">
-            <img src="../../assets/img/jump.jpg" width="100%" />
-          </a>
-        </div>
+
       </div>
     </section>
 
@@ -101,6 +97,10 @@ export default {
 
   .three {
     width: 75%;
+  }
+
+  .four {
+    width: 100%;
   }
 
 
