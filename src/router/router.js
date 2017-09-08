@@ -8,19 +8,10 @@ import Add 				          		from "../components/Add/Add.vue";
 import Map 				        			from "../components/Map/Map.vue";
 import Recent 				        	from "../components/Recent/Recent.vue";
 import Search 				          from "../components/Search/Search.vue";
+import Skatepark 				        from "../components/Skatepark/Skatepark.vue";
 import Top 				        			from "../components/Top/Top.vue";
 
-
-/*
-import mutations 								from "../vuex/mutations.js";
-import getters 									from "../vuex/getters.js";
-import state 									from "../vuex/state.js";
-
-*/
-
 import store 	from "../vuex/store.js";
-
-
 
 // define routes
 const routes = [
@@ -28,6 +19,7 @@ const routes = [
 	{ path: "/add", component: Add},
 	{ path: "/recent", component: Recent},
 	{ path: "/search", component: Search},
+	{ path: "/skatepark", component: Skatepark},
 	{ path: "/top", component: Top}
 ];
 

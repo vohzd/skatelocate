@@ -40,7 +40,7 @@
             <textarea name="name" placeholder="Skatepark Description" v-model="mandatoryInfo.skateparkDesc" resizeable="false"></textarea>
           </div>
           <div class="field">
-            <div class="available-tags">
+            <div class="tags">
               <div v-for="tag in availableSkateparkTags" class="tag" v-bind:class=" { 'tag-selected': isTagInArray(tag) } " v-on:click="toggleThisTag(tag)">
                 {{ tag }}
               </div>
@@ -366,25 +366,6 @@ export default {
     margin-top: 32px;
   }
 
-
-  .available-tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    font-size: 12px;
-    margin-right: 4px;
-    margin-bottom: 4px;
-    background: rgba(0,0,0,0.1);
-    padding: 8px;
-    border-radius: 16px;
-  }
-
-  .tag:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
 
   .tag-selected {
     background: rgba(107, 175, 126, 0.4);

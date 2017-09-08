@@ -37,8 +37,8 @@ export default {
   setMapInstance({commit}, instance){
     commit("SET_MAP_INSTANCE", instance);
   },
-  setSkateparkInFocus({commit}, position){
-    commit("SET_SKATEPARK_IN_FOCUS", position);
+  setSkateparkInFocus({commit}, skatepark){
+    commit("SET_SKATEPARK_IN_FOCUS", skatepark);
   },
   toggleDetailsPanelVisibility({commit}){
     commit("TOGGLE_DETAILS_PANEL_VISIBILITY");

@@ -139,6 +139,27 @@ export default {
 		color: #746b78;
 	}
 
+
+	  .tags {
+	    display: flex;
+	    flex-wrap: wrap;
+	  }
+
+	  .tag {
+	    font-size: 12px;
+	    margin-right: 4px;
+	    margin-bottom: 4px;
+	    background: rgba(0,0,0,0.1);
+	    padding: 8px;
+	    border-radius: 16px;
+	  }
+
+	  .tag:hover {
+	    cursor: pointer;
+	    opacity: 0.8;
+	  }
+
+
 	@media(max-width: 1320px){
 		.details-panel{
 			width: 500px;
