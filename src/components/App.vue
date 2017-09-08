@@ -7,6 +7,8 @@
 		<router-view class="details-panel" v-bind:class="{ 'hide-panel' : !isDetailsShown }"/>
 		<!-- persistent right-hand nav -->
 		<navigation-panel />
+		<!-- notifications that pop up every now and again -->
+		<notification-popup v-bind:class="{ 'hide-popup' : !isNotificationPopUpShown }"/>
 	</div>
 </template>
 
@@ -14,24 +16,26 @@
 import { mapGetters }					from "vuex";
 import NavigationPanel				from "./NavigationPanel.vue";
 import LeafletMap 						from "./Map/Map.vue";
+import NotificationPopup			from "./Notification.vue";
+
 
 export default {
 	components: {
 		"navigation-panel": NavigationPanel,
+		"notification-popup": NotificationPopup,
 		"leaflet-map": LeafletMap
 	},
 	computed: {
 		...mapGetters([
 			"currentCursor",
-			"isDetailsShown"
+			"isDetailsShown",
+			"isNotificationPopUpShown"
 		])
 	}
 }
 </script>
 
 <style lang="css">
-
-
 	body {
 		margin: 0;
 		padding: 0;
@@ -116,13 +120,18 @@ export default {
 	.toggle-nav-element {
 		position: absolute;
 		top: 0;
-		left: -64px;
-		width: 64px;
+		left: -72px;
+		width: 72px;
 		height: 64px;
 		line-height: 64px;
 		background: #251f28;
 		color: #565158;
 		text-align: center;
+	}
+
+
+	.hide-popup {
+		margin-bottom: -150px;
 	}
 
 	.toggle-nav-element:hover {

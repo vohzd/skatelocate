@@ -13,8 +13,14 @@ export default {
   SET_IS_MAP_DOUBLE_CLICK_ALLOWED(state, bool){
     state.isMapDoubleClickAllowed = bool;
   },
+  SET_IS_NOTIFICATION_SHOWN(state, bool){
+    state.isNotificationPopUpShown = bool;
+  },
   SET_MAP_INSTANCE(state, instance){
     state.mapInstance = instance;
+  },
+  SET_NOTIFICATION_TEXT(state, text){
+    state.notificationText = text;
   },
   SET_SKATEPARKS(state, skateparks){
     state.skateparks = skateparks;

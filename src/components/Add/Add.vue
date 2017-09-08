@@ -69,7 +69,7 @@
 
       </div>
 
-      <div class="optional-form" id="cloudinary-interface" v-show="currentAddSkateparkStep == 3">
+      <div class="optional-form" id="cloudinary-interface"  v-show="currentAddSkateparkStep == 3">
       </div>
 
       <div class="status-results" v-show="currentAddSkateparkStep == 4">
@@ -123,27 +123,32 @@ export default {
   methods: {
     ...mapActions([
       "changeCursorTo",
+      "createNotification",
       "setCurrentStep",
       "setIsMapDoubleClickAllowed",
       "setPendingNewParkLatLng"
     ]),
     addPark(){
-      if (this.skateparkAdder && this.skateparkDesc && this.skateparkName){
+      if (this.mandatoryInfo.skateparkAdder && this.mandatoryInfo.skateparkDesc && this.mandatoryInfo.skateparkName){
         database.ref("skateparks").push({
-          skateparkAdder: this.skateparkAdder,
-          skateparkDesc: this.skateparkDesc,
+          skateparkAdder: this.mandatoryInfo.skateparkAdder,
+          skateparkDesc: this.mandatoryInfo.skateparkDesc,
           skateparkLocation: [this.pendingNewParkLatLng.lat, this.pendingNewParkLatLng.lng],
           skateparkImages: this.cloudinaryImageURLs,
-          skateparkName: this.skateparkName,
+          skateparkName: this.mandatoryInfo.skateparkName,
+          skateparkTags: this.mandatoryInfo.selectedTags,
           timeAdded: Date.now()
         });
         this.clearForm();
+        this.createNotification("Thank you, that's now been added!");
       }
     },
     clearForm(){
-      this.skateparkAdder = "";
-      this.skateparkDesc = "";
-      this.skateparkName = "";
+      this.mandatoryInfo.skateparkAdder = "";
+      this.mandatoryInfo.skateparkDesc = "";
+      this.mandatoryInfo.skateparkName = "";
+      this.mandatoryInfo.selectedTags = [];
+      this.cloudinaryImageURLs = [];
       this.setPendingNewParkLatLng(null);
       this.setCurrentStep(1);
       this.changeCursorTo("marker-cursor");
@@ -180,22 +185,27 @@ export default {
       return this.currentAddSkateparkStep > step;
     },
     initCloudinaryUploadWidget(){
-      cloudinary.openUploadWidget(
-        {
-          cloud_name: "lgycbktyo",
-          upload_preset: "p0cxg2v9",
-          inline_container: document.getElementById("cloudinary-interface"),
-          theme: "white",
-          show_powered_by: false
-        },
-        (err, res) => {
-          // todo error handling
+      let cloudinaryOptions = {
+        cloud_name: "lgycbktyo",
+        upload_preset: "p0cxg2v9",
+        inline_container: document.getElementById("cloudinary-interface"),
+        theme: "white",
+        show_powered_by: false
+      };
+      cloudinary.openUploadWidget(cloudinaryOptions, (err, res) => {
           this.setImageUrls(res)
             .then(() => {
               this.addPark();
-            });
-          console.log(res);
+            })
         });
+    },
+    setImageUrls(arr){
+      return new Promise((resolve, reject) => {
+        arr.forEach((v, i) => {
+          this.cloudinaryImageURLs.push(v.secure_url)
+        });
+        resolve()
+      });
     },
     toggleThisTag(tag){
       let test = this.isTagInArray(tag);
@@ -333,17 +343,23 @@ export default {
     width: calc(100% - 16px);
     height: 64px;
     border: none;
+    background: rgba(107, 175, 126, 0.3);
+
   }
 
   .side-by-side .col input:hover{
     cursor: pointer;
     opacity: 0.8;
-    background: rgba(107, 175, 126, 0.4);
+    background: rgba(107, 175, 126, 0.25);
+  }
+
+  .side-by-side .col input:disabled{
+    cursor: not-allowed;
+    background: rgba(236, 210, 209, 0.4);
   }
 
   .side-by-side .col input:disabled:hover{
     cursor: not-allowed;
-    background: rgba(2555, 2555, 2555, 0.03)
   }
 
   .intro-instructions {

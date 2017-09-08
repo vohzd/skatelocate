@@ -15,6 +15,16 @@ export default {
   changeCursorTo({commit}, which){
     commit("CHANGE_CURSOR_TO", which);
   },
+  createNotification({commit}, notificationText){
+    commit("SET_NOTIFICATION_TEXT", notificationText);
+    commit("SET_IS_NOTIFICATION_SHOWN", true);
+    setTimeout(() => {
+      commit("SET_IS_NOTIFICATION_SHOWN", false);
+      setTimeout(() => {
+        commit("SET_NOTIFICATION_TEXT", "");
+      }, 2000)
+    }, 2000);
+  },
   setCurrentStep({commit}, step){
     commit("SET_CURRENT_STEP", step);
   },
