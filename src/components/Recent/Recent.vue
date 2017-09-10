@@ -5,7 +5,7 @@
       <h3>RECENTLY ADDED</h3>
     </header>
     <section class="section-content">
-      <ul class="recent-skatepark">
+      <ul class="recent-skateparks">
         <li v-for="skatepark in mostRecentParks" v-if="mostRecentParks.length" v-on:click="jumpToThisSkatepark(skatepark)">
           <h3>{{ skatepark.skateparkName }}</h3>
           <time>{{ skatepark.timeAdded  | dateFilter }}</time>
@@ -73,12 +73,16 @@ export default {
 
 <style lang="css">
 
-  .recent-skatepark {
+  .recent-skateparks {
     margin: 0;
     padding: 0;
+    height: calc(100vh - 100px);
+    float: left;
+    width: 100%;
+    overflow-y: scroll;
   }
 
-  .recent-skatepark li {
+  .recent-skateparks li {
     list-style: none;
     background: rgba(0, 0, 0, 0.06);
     margin: 0;
@@ -87,18 +91,18 @@ export default {
     border: 1px solid #DDDDDD;
   }
 
-  .recent-skatepark li:hover {
+  .recent-skateparks li:hover {
     cursor: pointer;
     opacity: 0.7;
   }
 
-  .recent-skatepark h3 {
+  .recent-skateparks h3 {
     font-size: 24px;
     padding: 0px;
     margin: 0px;
   }
 
-  .recent-skatepark time {
+  .recent-skateparks time {
     font-size: 14px;
   }
 
