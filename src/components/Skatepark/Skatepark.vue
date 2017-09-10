@@ -6,6 +6,9 @@
     </header>
     <section class="skatepark-details">
       <div v-if="skateparkInFocus">
+        <div class="skatepark-images" v-if="skateparkInFocus.skateparkImages">
+          <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
+        </div>
         <div class="skatepark-description">{{ skateparkInFocus.skateparkDesc }}</div>
         <div class="tags">
           <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
@@ -13,9 +16,6 @@
           </div>
         </div>
         <div class="fix-bottom">
-          <div class="skatepark-images" v-if="skateparkInFocus.skateparkImages">
-            <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
-          </div>
           <div class="skatepark-adder">Added by <span class="skatepark-adder-name">{{ skateparkInFocus.skateparkAdder }}</span> on {{ skateparkInFocus.timeAdded | dateFilter }}</div>
         </div>
       </div>
@@ -125,8 +125,7 @@ export default {
 
   .skatepark-description {
     padding: 16px;
-    font-size: 24px;
-    min-height: 70px;
+    font-size: 17px;
     white-space: pre-line;
     background: rgba(0, 0, 0, 0.06);
     border-bottom: 1px solid #DDDDDD;
@@ -140,9 +139,13 @@ export default {
     display: flex;
     margin: 0;
     padding: 0;
-    height: 250px;
-    margin-top: 48px;
     position: relative;
+    width: 100%;
+    height: 600px
+  }
+
+  .skatepark-images img{
+    width: 100%;
   }
 
 
