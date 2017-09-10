@@ -71,7 +71,7 @@
           <input type="button" value="SUBMIT" v-on:click="addPark" v-bind:disabled="!canProceed" />
         </div>
         <div class="col">
-          <input type="button" value="NEXT" v-on:click="goToStep(3)" v-bind:disabled="!canProceed"/>
+          <input type="button" v-bind:value="nextOrPrevButtonLabel" v-on:click="goToStep(3)" v-bind:disabled="!canProceed"/>
         </div>
        </div>
       <div class="optional-form" id="cloudinary-interface"  v-show="currentAddSkateparkStep == 3"></div>
@@ -98,7 +98,15 @@ export default {
       "isMapDoubleClickAllowed",
       "mapInstance",
       "pendingNewParkLatLng"
-    ])
+    ]),
+    nextOrPrevButtonLabel(){
+      if (this.currentAddSkateparkStep === 2){
+        return "ADD IMAGES"
+      }
+      else {
+        return "BACK"
+      }
+    }
   },
   data(){
     return {
@@ -118,6 +126,7 @@ export default {
   beforeDestroy(){
     this.changeCursorTo("");
     this.setIsMapDoubleClickAllowed(false);
+    this.clearForm();
   },
   methods: {
     ...mapActions([
@@ -139,6 +148,8 @@ export default {
           timeAdded: Date.now()
         });
         this.clearForm();
+        this.changeCursorTo("marker-cursor");
+        this.setIsMapDoubleClickAllowed(true);
         this.createNotification("Thank you, that's now been added!");
       }
     },
@@ -150,9 +161,9 @@ export default {
       this.cloudinaryImageURLs = [];
       this.setPendingNewParkLatLng(null);
       this.setCurrentStep(1);
-      this.changeCursorTo("marker-cursor");
-      this.setIsMapDoubleClickAllowed(true);
-      this.tempMarker.remove();
+      if (this.tempMarker){
+        this.tempMarker.remove();
+      }
     },
     createTempMarker(){
       this.tempMarker = L.marker(this.pendingNewParkLatLng, {draggable: true}).addTo(this.mapInstance);

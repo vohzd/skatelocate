@@ -2,18 +2,23 @@
   <section>
     <header class="block-header">
       <toggle-nav-panel />
-      <h3>{{ skateparkInFocus.skateparkName }}</h3>
+      <h3 v-if="!needsMessage">{{ skateparkInFocus.skateparkName }}</h3>
     </header>
     <section class="section-content">
-      <p class="skatepark-description">{{ skateparkInFocus.skateparkDesc }}</p>
-      <div class="skatepark-adder">Added by {{ skateparkInFocus.skateparkAdder }} at {{ skateparkInFocus.timeAdded }}</div>
-      <div class="skatepark-images">
-        <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
-      </div>
-      <div class="tags">
-        <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
-          {{ tag }}
+      <div v-if="!needsMessage">
+        <p class="skatepark-description">{{ skateparkInFocus.skateparkDesc }}</p>
+        <div class="skatepark-adder">Added by {{ skateparkInFocus.skateparkAdder }} at {{ skateparkInFocus.timeAdded }}</div>
+        <div class="skatepark-images">
+          <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
         </div>
+        <div class="tags">
+          <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
+            {{ tag }}
+          </div>
+        </div>
+      </div>
+      <div class="help-messages" v-if="needsMessage">
+        {{ statusMessage }}
       </div>
     </section>
   </section>
@@ -29,15 +34,44 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "skateparkInFocus"
+      "skateparkInFocus",
+      "skateparks"
     ])
   },
   data(){
     return {
+      needsMessage: false,
+      statusMessage: ""
     }
   },
   methods: {
-
+    ...mapActions([
+      "setSkateparkInFocus"
+    ])
+  },
+  mounted(){
+    if (!this.skateparks.length){
+      this.needsMessage = true;
+      this.statusMessage = "Loading...";
+    }
+    this.setSkateparkInFocus(this.$route.params.id)
+  },
+  watch: {
+    $route(to, from) {
+      this.setSkateparkInFocus(to.params.id)
+    },
+    skateparks(){
+      if (!this.skateparks.length){
+        this.needsMessage = true;
+        this.statusMessage = "No skateparks present!";
+      }
+      else {
+        this.setSkateparkInFocus(this.$route.params.id).then(() => {
+            this.needsMessage = false;
+            this.statusMessage = "";
+          })
+      }
+    }
   }
 }
 </script>

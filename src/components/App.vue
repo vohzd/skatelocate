@@ -69,7 +69,7 @@ export default {
 	}
 
 	a {
-		color: #9d7660;
+		color: #037fcb;
 		text-decoration: none;
 	}
 

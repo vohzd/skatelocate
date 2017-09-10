@@ -37,8 +37,15 @@ export default {
   setMapInstance({commit}, instance){
     commit("SET_MAP_INSTANCE", instance);
   },
-  setSkateparkInFocus({commit}, skatepark){
-    commit("SET_SKATEPARK_IN_FOCUS", skatepark);
+  setSkateparkInFocus({commit}, skateparkId){
+    console.log(skateparkId);
+    state.skateparks.forEach((skatepark, i) => {
+      if (skatepark[".key"] === skateparkId){
+        console.log("found?");
+        console.log(skatepark);
+        commit("SET_SKATEPARK_IN_FOCUS", skatepark);
+      }
+    });
   },
   toggleDetailsPanelVisibility({commit}){
     commit("TOGGLE_DETAILS_PANEL_VISIBILITY");

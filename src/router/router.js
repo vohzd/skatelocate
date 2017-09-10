@@ -19,13 +19,12 @@ const routes = [
 	{ path: "/add", component: Add},
 	{ path: "/recent", component: Recent},
 	{ path: "/search", component: Search},
-	{ path: "/skatepark", component: Skatepark},
+	{ path: "/skatepark/:id", name: "skatepark", component: Skatepark},
 	{ path: "/top", component: Top}
 ];
 
 const router = new VueRouter({
 	base: __dirname + "/",
-	mode: 'history',
 	routes
 });
 

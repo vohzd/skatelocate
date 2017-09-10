@@ -61,8 +61,12 @@ export default {
                   .bindTooltip(marker.skateparkName, { permanent: true })
                   .setLatLng([marker.skateparkLocation[0], marker.skateparkLocation[1]])
                   .on("click", () => {
-                    this.setSkateparkInFocus(marker);
-                    this.$router.push("skatepark");
+                    this.$router.push({
+                      name: "skatepark",
+                      params: {
+                        id: marker[".key"]
+                      }
+                    })
                   })
     },
     destroyNewSkateParkListener(){
