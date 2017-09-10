@@ -4,7 +4,7 @@
       <toggle-nav-panel />
       <h3>ADD NEW</h3>
     </header>
-    <section class="add-skatepark-interface section-content">
+    <section class="add-skatepark-interface">
       <ol class="steps-status">
         <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 1, 'step-completed': isStepGreaterThan(1)}">
           <div class="step-label">
@@ -25,57 +25,56 @@
           </div>
         </li>
       </ol>
-      <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
-        <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
-      </div>
-      <div class="mandatory-form" v-show="currentAddSkateparkStep == 2">
-        <div class="mandatory-form-fields">
-          <div class="field">
-            <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="mandatoryInfo.skateparkName" />
-          </div>
-          <div class="field">
-            <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="mandatoryInfo.skateparkAdder"/>
-          </div>
-          <div class="field">
-            <textarea name="name" placeholder="Skatepark Description" v-model="mandatoryInfo.skateparkDesc" resizeable="false"></textarea>
-          </div>
-          <div class="field">
-            <div class="tags">
-              <div v-for="tag in availableSkateparkTags" class="tag" v-bind:class=" { 'tag-selected': isTagInArray(tag) } " v-on:click="toggleThisTag(tag)">
-                {{ tag }}
+      <div class="">
+        <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
+          <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
+        </div>
+        <div class="mandatory-form" v-show="currentAddSkateparkStep == 2">
+          <div class="mandatory-form-fields">
+            <div class="field">
+              <input type="text" name="skatepark-name" placeholder="Skatepark Name" v-model="mandatoryInfo.skateparkName" />
+            </div>
+            <div class="field">
+              <input type="text" name="skatepark-adder" placeholder="Your Name" v-model="mandatoryInfo.skateparkAdder"/>
+            </div>
+            <div class="field">
+              <textarea name="name" placeholder="Skatepark Description" v-model="mandatoryInfo.skateparkDesc" resizeable="false"></textarea>
+            </div>
+            <div class="field">
+              <div class="tags">
+                <div v-for="tag in availableSkateparkTags" class="tag" v-bind:class=" { 'tag-selected': isTagInArray(tag) } " v-on:click="toggleThisTag(tag)">
+                  {{ tag }}
+                </div>
               </div>
             </div>
           </div>
+          <section class="help-text">
+            <span v-if="pendingNewParkLatLng">
+              <div class="segment">
+                <label>Protip</label>
+                <span>You can drag the marker to change the lat/long.</span>
+              </div>
+              <div class="segment">
+                <label>Lat</label>
+                <span>{{ pendingNewParkLatLng.lat }}</span>
+              </div>
+              <div class="segment">
+                <label>Lng</label>
+                <span>{{ pendingNewParkLatLng.lng }}</span>
+              </div>
+            </span>
+          </section>
         </div>
-        <section class="help-text">
-          <div v-if="pendingNewParkLatLng">
-            Protip: You can drag the marker to change the lat/long.
-            <div>
-              Lat: {{ pendingNewParkLatLng.lat }}
-            </div>
-            <div>
-              Lng: {{ pendingNewParkLatLng.lng }}
-            </div>
-          </div>
-        </section>
-        <div class="side-by-side">
-          <div class="col">
-            <input type="button" value="SUBMIT" v-on:click="addPark" v-bind:disabled="!canProceed" />
-          </div>
-          <div class="col">
-            <input type="button" value="NEXT" v-on:click="goToStep(3)" v-bind:disabled="!canProceed"/>
-          </div>
+       </div>
+       <div class="side-by-side">
+        <div class="col">
+          <input type="button" value="SUBMIT" v-on:click="addPark" v-bind:disabled="!canProceed" />
         </div>
-
-      </div>
-
-      <div class="optional-form" id="cloudinary-interface"  v-show="currentAddSkateparkStep == 3">
-      </div>
-
-      <div class="status-results" v-show="currentAddSkateparkStep == 4">
-        Uploading...
-      </div>
-
+        <div class="col">
+          <input type="button" value="NEXT" v-on:click="goToStep(3)" v-bind:disabled="!canProceed"/>
+        </div>
+       </div>
+      <div class="optional-form" id="cloudinary-interface"  v-show="currentAddSkateparkStep == 3"></div>
     </section>
   </div>
 </template>
@@ -170,7 +169,9 @@ export default {
       }
     },
     goToStep(step){
-      this.setCurrentStep(step)
+      if (this.currentAddSkateparkStep > 1){
+        this.setCurrentStep(step);
+      }
     },
     isTagInArray(tag){
       let index = this.mandatoryInfo.selectedTags.indexOf(tag);
@@ -249,6 +250,8 @@ export default {
      margin: 0;
      display: flex;
      flex-wrap: wrap;
+     border-bottom: 1px solid #DDDDDD;
+
   }
 
    .steps-status li{
@@ -264,13 +267,22 @@ export default {
     background: rgba(0,0,0,0.05);
     font-size: 12px;
   }
+
+  .steps-status .step-completed:nth-child(1){
+    cursor: not-allowed;
+  }
+
+  .steps-status .step-completed:nth-child(2), .step:nth-child(3):hover{
+    cursor: pointer;
+  }
+
   .step-label {
     letter-spacing: 1px;
   }
 
   .step i {
-    font-size: 20px;
-    margin: 8px;
+    font-size: 16px;
+    margin: 18px;
     opacity: 0.5;
     float: right;
   }
@@ -286,11 +298,9 @@ export default {
   .mandatory-form-fields {
     margin: 0;
     padding: 0;
-    margin-top: 64px;
   }
 
   .mandatory-form-fields .field{
-    margin-bottom: 8px;
   }
 
 
@@ -300,38 +310,69 @@ export default {
   }
 
   .mandatory-form input[type="text"], textarea{
-    width: calc(100% - 8px);
+    width: 100%;
+    padding: 8px;
     line-height: 32px;
     outline: none;
     background: none;
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
-    font-size: 16px;
+    border-bottom: 1px solid #DDDDDD;
+    font-size: 17px;
     margin:0px;
   }
 
   .mandatory-form input[type="text"]:active, textarea:active{
-    background: rgba(107, 175, 126, 0.4);
+    background: rgba(107, 175, 126, 0.12);
   }
 
   .mandatory-form input[type="text"]:focus, textarea:focus{
-    background: rgba(107, 175, 126, 0.4);
+    background: rgba(107, 175, 126, 0.12);
   }
 
 
   .mandatory-form textarea {
     resize: none;
+    height: 256px;
   }
 
   .help-text {
-    margin-top: 16px;
-    font-size: 11px;
+    margin-top: 4px;
+    font-size: 12px;
+    float: left;
+    width: 100%;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    position: absolute;
+    bottom: 64px;
+  }
+
+  .help-text .segment{
+    display: inline;
+    padding-right: 4px;
+    border-right: 1px solid #DDDDDD;
+    float: left;
+    color: #9F9F9F;
+
+  }
+  .help-text .segment label{
+    background: #EDEDED;
+    float: left;
+    padding: 4px;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  .help-text .segment span{
+    padding: 4px;
+    line-height: 25px;
+    font-size: 12px;
   }
 
   .side-by-side {
     width: 100%;
     position: absolute;
     bottom: 0;
+    border-top: 1px solid #DDDDDD;
   }
 
   .side-by-side .col {
@@ -340,7 +381,7 @@ export default {
   }
 
   .side-by-side .col input{
-    width: calc(100% - 16px);
+    width: 100%;
     height: 64px;
     border: none;
     background: rgba(107, 175, 126, 0.3);
@@ -363,7 +404,15 @@ export default {
   }
 
   .intro-instructions {
-    margin-top: 32px;
+    margin-top: 12px;
+    margin-left: 12px;
+
+  }
+
+
+  .tags {
+    margin-top: 8px;
+    margin-left: 8px;
   }
 
 

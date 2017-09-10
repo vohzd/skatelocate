@@ -86,7 +86,7 @@ export default {
 		height: 64px;
 		font-size: 32px;
 		background: #251f28;
-    color: #746b78;
+    color: #cfcfcf;
 	}
 
 
@@ -94,6 +94,7 @@ export default {
 	.block-header h3 {
 		line-height: 64px;
 		font-size: 32px;
+		text-align: center;
 	}
 
 	.details-panel {
@@ -106,15 +107,19 @@ export default {
 		width: 900px;
 		margin-right: 48px;
 		transition: 0.5s all;
+		border-left: 1px solid #DDDDDD;
 	}
 
+	.details-panel:hover {
+		cursor: auto;
+	}
 	.hide-panel {
 		margin-right:-852px;
 		transition: 0.5s all;
 	}
 
 	.section-content {
-		padding: 8px;
+		padding: 16px;
 	}
 
 	.toggle-nav-element {
