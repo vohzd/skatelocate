@@ -73,7 +73,7 @@ export default {
       this.mapInstance.off("dblclick");
     },
     initMap(){
-      this.setMapInstance(L.map("map").setView([51.505, -0.09], 6));
+      this.setMapInstance(L.map("map").setView([0, 180], 2));
       this.mapInstance.doubleClickZoom.disable();
       this.markercluster = L.markerClusterGroup();
       this.addMapTiles();

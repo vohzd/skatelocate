@@ -38,11 +38,8 @@ export default {
     commit("SET_MAP_INSTANCE", instance);
   },
   setSkateparkInFocus({commit}, skateparkId){
-    console.log(skateparkId);
     state.skateparks.forEach((skatepark, i) => {
       if (skatepark[".key"] === skateparkId){
-        console.log("found?");
-        console.log(skatepark);
         commit("SET_SKATEPARK_IN_FOCUS", skatepark);
       }
     });
