@@ -57,6 +57,33 @@ export default {
 		cursor: inherit;
 	}
 
+	.leaflet-tooltip {
+		position: absolute;
+    padding: 4px;
+    background-color: #fff;
+    border: 1px solid #b8b9ba;
+    border-radius: 3px;
+    color: #233541;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgba(128, 112, 112, 0.4);
+    text-transform: uppercase;
+    font-family: kalam;
+    font-size: 10px;
+    line-height: 19px;
+    margin-top: 7px;
+	}
+
+	.leaflet-tooltip-right::before {
+    left: 0;
+    margin-left: -12px;
+    border-right-color: #96a4ad99;
+}
+
 	.marker-cursor {
 		cursor: url("../assets/img/marker.png") 0 50, auto !important;
 	}
