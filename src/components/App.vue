@@ -59,23 +59,23 @@ export default {
 
 	.leaflet-tooltip {
 		position: absolute;
-    padding: 4px;
-    background-color: #fff;
-    border: 1px solid #b8b9ba;
-    border-radius: 3px;
-    color: #233541;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    pointer-events: none;
-    box-shadow: 0 1px 3px rgba(128, 112, 112, 0.4);
-    text-transform: uppercase;
-    font-family: kalam;
-    font-size: 10px;
-    line-height: 19px;
-    margin-top: 7px;
+		padding: 4px;
+		background-color: #4e7a9b;
+		border: 1px solid #8497a5;
+		border-radius: 5px;
+		color: #ffffff;
+		white-space: nowrap;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		pointer-events: none;
+		box-shadow: 0 1px 3px rgba(157, 154, 183, 0.4);
+		text-transform: uppercase;
+		font-family: kalam;
+		font-size: 10px;
+		line-height: 19px;
+		margin-top: 7px;
 	}
 
 	.leaflet-tooltip-right::before {
@@ -92,16 +92,28 @@ export default {
 		font-family: "kalam";
 	}
 
+	.marker-cluster-small {
+		background: #ABE6CB;
+	}
+
 	.marker-cluster-small div {
-		background: #98D3EA;
+		background: #76CCA5;
+	}
+
+	.marker-cluster-medium {
+		background: #FFB89D;
 	}
 
 	.marker-cluster-medium div {
-		background: #FFAF58;
+		background: #FF956E;
+	}
+
+	.marker-cluster-large {
+		background: #CD5366;
 	}
 
 	.marker-cluster-large div {
-		background: #FF7558;
+		background: #B32E43;
 	}
 
 	h1, h2, h3, h4, h5, h6, p, ul, li {

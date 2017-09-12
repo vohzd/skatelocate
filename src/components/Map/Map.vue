@@ -60,22 +60,69 @@ export default {
       return L.marker()
                   .bindTooltip(marker.skateparkName, { permanent: true })
                   .setLatLng([marker.skateparkLocation[0], marker.skateparkLocation[1]])
-                  .on("click", () => {
+                  .on("click", (event) => {
+                    let offset = this.getZoomOffsetLong(event.latlng.lng);
+                    this.mapInstance.setView([event.latlng.lat, (event.latlng.lng + offset)]);
+                    // let the router handle the retreival of skatepark metadata
                     this.$router.push({
                       name: "skatepark",
                       params: {
                         id: marker[".key"]
                       }
                     })
-                  })
+                  });
     },
     destroyNewSkateParkListener(){
       this.mapInstance.off("dblclick");
     },
+    getZoomOffsetLong(long){
+      // returns a value to offset based on the current zoom level (as higher values go into finer detail)
+      let zoomLevel = this.mapInstance.getZoom();
+      let offset = 0;
+      if (zoomLevel == 18){
+        offset = 0.0022
+      }
+      if (zoomLevel == 17){
+        offset = 0.005
+      }
+      if (zoomLevel == 16){
+        offset = 0.01
+      }
+      if (zoomLevel == 15){
+        offset = 0.02
+      }
+      if (zoomLevel == 14){
+        offset = 0.05
+      }
+      if (zoomLevel == 13){
+        offset = 0.1
+      }
+      if (zoomLevel == 12){
+        offset = 0.2
+      }
+      if (zoomLevel == 11){
+        offset = 0.45
+      }
+      if (zoomLevel == 10){
+        offset = 0.65
+      }
+      if (zoomLevel == 9){
+        offset = 1.6
+      }
+      if (zoomLevel == 8){
+        offset = 2.6
+      }
+      if (zoomLevel == 7){
+        offset = 4.6
+      }
+      return offset;
+    },
     initMap(){
       this.setMapInstance(L.map("map").setView([0, 180], 2));
       this.mapInstance.doubleClickZoom.disable();
-      this.markercluster = L.markerClusterGroup();
+      this.markercluster = L.markerClusterGroup({
+        animateAddingMarkers: true
+      });
       this.addMapTiles();
       this.retreiveExistingSkateparks();
     },
@@ -90,6 +137,14 @@ export default {
       });
       this.markercluster.addLayers(this.markers);
       this.mapInstance.addLayer(this.markercluster);
+      // because i need to slightly offset where the default zoom goes to
+      // (the side pane obscures the center zoom)
+      this.markercluster.on("clusterclick", (event) => {
+        setTimeout(() => {
+          let offset = this.getZoomOffsetLong(event.latlng.lng);
+          this.mapInstance.setView([event.latlng.lat, (event.latlng.lng + offset)]);
+        }, 500)
+      })
     },
     registerNewSkateparkListener(){
       this.mapInstance.on("dblclick", (props) => {
