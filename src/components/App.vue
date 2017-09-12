@@ -60,10 +60,10 @@ export default {
 	.leaflet-tooltip {
 		position: absolute;
 		padding: 4px;
-		background-color: #4e7a9b;
-		border: 1px solid #8497a5;
+		background-color: rgba(255,255,255,1);
+		border: 1px solid #DDDDDD;
 		border-radius: 5px;
-		color: #ffffff;
+		color: #000000;
 		white-space: nowrap;
 		-webkit-user-select: none;
 		-moz-user-select: none;
@@ -81,8 +81,12 @@ export default {
 	.leaflet-tooltip-right::before {
     left: 0;
     margin-left: -12px;
-    border-right-color: #96a4ad99;
-}
+    border-right-color: #DDDDDD;
+	}
+
+	.leaflet-tooltip-left::before {
+		border-left-color: #DDDDDD;
+	}
 
 	.marker-cursor {
 		cursor: url("../assets/img/marker.png") 0 50, auto !important;

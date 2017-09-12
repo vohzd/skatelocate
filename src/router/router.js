@@ -32,7 +32,6 @@ router.beforeEach((to, from, next) => {
 	if (!store.getters.isDetailsShown){
 		store.commit("TOGGLE_DETAILS_PANEL_VISIBILITY")
 	}
-
 	next()
 });
 

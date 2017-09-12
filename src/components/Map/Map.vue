@@ -107,7 +107,7 @@ export default {
         offset = 0.65
       }
       if (zoomLevel == 9){
-        offset = 1.6
+        offset = 1.2
       }
       if (zoomLevel == 8){
         offset = 2.6

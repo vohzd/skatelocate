@@ -6,10 +6,15 @@
     </header>
     <section class="skatepark-details">
       <div v-if="skateparkInFocus">
-        <div class="skatepark-images" v-if="skateparkInFocus.skateparkImages">
+        <div class="skatepark-images dragscroll" v-if="skateparkInFocus.skateparkImages">
           <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
         </div>
         <div class="skatepark-description">{{ skateparkInFocus.skateparkDesc }}</div>
+        <div class="skatepark-links">
+          <a href="#"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+          <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+          <a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+        </div>
         <div class="tags">
           <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
             {{ tag }}
@@ -17,6 +22,9 @@
         </div>
         <div class="fix-bottom">
           <div class="skatepark-adder">Added by <span class="skatepark-adder-name">{{ skateparkInFocus.skateparkAdder }}</span> on {{ skateparkInFocus.timeAdded | dateFilter }}</div>
+        </div>
+        <div class="upvote-button">
+          <button>Upvote! (2)</button>
         </div>
       </div>
       <div class="help-messages" v-if="needsMessage">
@@ -30,6 +38,7 @@
 import { mapActions, mapGetters }               from "vuex";
 
 import moment                                   from "moment";
+import dragscroll                               from "dragscroll";
 
 import toggleNavPanel                           from "../ToggleNavPanel.vue";
 
@@ -60,6 +69,7 @@ export default {
     ])
   },
   mounted(){
+    dragscroll.reset();
     if (!this.skateparks.length){
       this.needsMessage = true;
       this.statusMessage = "Loading...";
@@ -68,7 +78,8 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.setSkateparkInFocus(to.params.id)
+      dragscroll.reset();
+      this.setSkateparkInFocus(to.params.id);
     },
     skateparks(){
       if (!this.skateparks.length){
@@ -127,11 +138,7 @@ export default {
     padding: 16px;
     font-size: 17px;
     white-space: pre-line;
-    background: rgba(0, 0, 0, 0.06);
-    border-bottom: 1px solid #DDDDDD;
-
   }
-
 
   .skatepark-images {
     overflow-y: hidden;
@@ -141,13 +148,49 @@ export default {
     padding: 0;
     position: relative;
     width: 100%;
-    height: 600px
+    height: 550px
   }
 
   .skatepark-images img{
     width: 100%;
   }
 
+  .skatepark-links {
+    margin-left: 16px;
+  }
+
+  .upvote-button {
+    margin: 8px;
+  }
+
+  .upvote-button button {
+    outline: none;
+    border: none;
+    background: rgba(0,0,0,0.1);
+    padding: 8px;
+    margin: 0px;
+    font-family: "kalam";
+    width: 25%;
+    border-radius: 8px;
+  }
+
+  @media(max-width: 980px){
+    .skatepark-images {
+      height: 400px;
+    }
+  }
+
+  @media(max-width: 780px){
+    .skatepark-images {
+      height: 300px;
+    }
+  }
+
+	@media(max-width: 580px){
+    .skatepark-images {
+      display: none;
+    }
+  }
 
 
 </style>

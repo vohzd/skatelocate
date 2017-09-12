@@ -50,7 +50,7 @@ export default {
     top: 0;
     height: 100vh;
     width: 48px;
-    background: #363138;
+    background: #251f28;
     z-index: 9000;
   }
 

@@ -51,13 +51,10 @@ export default {
           id: skatepark[".key"]
         }
       });
-
       let slightlyOffset = [
         skatepark.skateparkLocation[0],
         (skatepark.skateparkLocation[1] + 0.033)
       ];
-      console.log(skatepark.skateparkLocation);
-      console.log(slightlyOffset);
       this.mapInstance.flyTo(slightlyOffset, 14, {
         duration: 1
       });

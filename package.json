@@ -10,6 +10,7 @@
   "license": "MIT",
   "repository": "https://github.com/vohzd/skatelocate.git",
   "dependencies": {
+    "dragscroll": "0.0.8",
     "firebase": "^4.3.0",
     "leaflet": "^1.2.0",
     "leaflet.markercluster": "^1.0.6",
