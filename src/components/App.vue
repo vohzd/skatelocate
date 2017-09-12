@@ -88,6 +88,22 @@ export default {
 		cursor: url("../assets/img/marker.png") 0 50, auto !important;
 	}
 
+	.marker-cluster div {
+		font-family: "kalam";
+	}
+
+	.marker-cluster-small div {
+		background: #98D3EA;
+	}
+
+	.marker-cluster-medium div {
+		background: #FFAF58;
+	}
+
+	.marker-cluster-large div {
+		background: #FF7558;
+	}
+
 	h1, h2, h3, h4, h5, h6, p, ul, li {
 		margin: 0;
 		padding: 0;
