@@ -141,17 +141,21 @@ export default {
   }
 
   .skatepark-images {
-    overflow-y: hidden;
-    overflow-x: auto;
-    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
     position: relative;
     width: 100%;
-    height: 550px
+    display: inline;
+    float: left;
+    height: 400px;
   }
 
   .skatepark-images img{
+    display: block;
+    width: auto;
+    height: auto;
     width: 100%;
   }
 
@@ -176,19 +180,16 @@ export default {
 
   @media(max-width: 980px){
     .skatepark-images {
-      height: 400px;
     }
   }
 
   @media(max-width: 780px){
     .skatepark-images {
-      height: 300px;
     }
   }
 
 	@media(max-width: 580px){
     .skatepark-images {
-      display: none;
     }
   }
 
