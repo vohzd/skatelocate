@@ -76,6 +76,7 @@ export default {
       this.mapInstance.off("dblclick");
     },
     getZoomOffsetLong(long){
+      // TO DO REFACTOR THE SHIT OUT OF THIS
       // returns a value to offset based on the current zoom level (as higher values go into finer detail)
       let zoomLevel = this.mapInstance.getZoom();
       let offset = 0;

@@ -34,22 +34,14 @@ export default {
   },
   methods: {
     increment(int){
-      let newVotes = this.skateparkInFocus.skateparkVotes + int;
-
-      database.ref(`skateparks/${this.skateparkInFocus['.key']}/skateparkVotes`).set(
-        newVotes
-      );
+      database.ref(`skateparks/${this.skateparkInFocus['.key']}/skateparkVotes`).set(this.skateparkInFocus.skateparkVotes + int);
     },
     decrement(int){
-      let newVotes = this.skateparkInFocus.skateparkVotes - int;
-      database.ref(`skateparks/${this.skateparkInFocus['.key']}/skateparkVotes`).set(
-        newVotes
-      );
+      database.ref(`skateparks/${this.skateparkInFocus['.key']}/skateparkVotes`).set(this.skateparkInFocus.skateparkVotes - int);
     },
     downvote(){
       if (this.hasAlreadyVoted()){
         if (this.hasDownVote){
-          console.log("remove downvote");
           this.increment(1);
           this.removeVoteFrom("downvotes");
           this.hasDownVote = false;
@@ -62,11 +54,9 @@ export default {
           this.saveVotesToLS();
           this.hasDownVote = true;
           this.hasUpvote = false;
-          console.log("toggle to downvote");
         }
       }
       else {
-        console.log("add downvote");
         this.decrement(1);
         this.votes.downvotes.push(this.skateparkInFocus['.key']);
         this.saveVotesToLS();
@@ -76,7 +66,6 @@ export default {
     upvote(){
       if (this.hasAlreadyVoted()){
         if (this.hasUpvote){
-          console.log("remove upvote");
           this.decrement(1);
           this.removeVoteFrom("upvotes");
           this.hasUpvote = false;
@@ -89,7 +78,6 @@ export default {
           this.saveVotesToLS();
           this.hasDownVote = false;
           this.hasUpvote = true;
-          console.log("toggle to upvote");
         }
       }
       else {
@@ -133,13 +121,12 @@ export default {
       localStorage.setItem("skatelocate_votes", JSON.stringify(this.votes));
     }
   },
-  mounted(){
-    setTimeout(() => {
-      console.log(`TIMEOUT reporting on ${this.skateparkInFocus.skateparkName} with ${this.skateparkInFocus.skateparkVotes} votes & id of ${this.skateparkInFocus['.key']}`);
+  watch: {
+    skateparkInFocus(){
       this.hasUpvote = false;
       this.hasDownVote = false;
       this.hasAlreadyVoted();
-    }, 400)
+    }
   }
 }
 </script>
