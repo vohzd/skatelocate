@@ -1,10 +1,10 @@
 <template lang="html">
   <section>
     <div class="votes">
-      <button class="vote-button" v-bind:class="{ 'is-disabled' : hasUpvote}">
+      <button class="vote-button" v-on:click="upvote" v-bind:class="{ 'is-disabled' : hasUpvote}">
         <i class="fa fa-chevron-up" aria-hidden="true"></i>
       </button>
-      <button class="vote-button" v-bind:class="{ 'is-disabled' : hasDownVote}">
+      <button class="vote-button" v-on:click="downvote" v-bind:class="{ 'is-disabled' : hasDownVote}">
         <i class="fa fa-chevron-down" aria-hidden="true" ></i>
       </button>
       <span class="upvotes-quantity">{{ skateparkInFocus.skateparkVotes }}</span>
@@ -27,11 +27,99 @@ export default {
   },
   data(){
     return {
-      amountOfVotes: 0,
       hasDownVote: false,
       hasUpvote: false,
-      votes: []
+      votes: null
     }
+  },
+  methods: {
+    downvote(){
+      if (this.hasAlreadyVoted()){
+        if (this.hasDownVote){
+          console.log("remove downvote");
+          this.removeVoteFrom("downvotes");
+          this.hasDownVote = false;
+        }
+        else {
+          // at this point it has an upvote
+          this.removeVoteFrom("upvotes");
+          this.votes.downvotes.push(this.skateparkInFocus['.key']);
+          this.saveVotesToLS();
+          this.hasDownVote = true;
+          this.hasUpvote = false;
+          console.log("toggle to downvote");
+        }
+      }
+      else {
+        this.votes.downvotes.push(this.skateparkInFocus['.key']);
+        this.saveVotesToLS();
+        this.hasDownVote = true;
+      }
+    },
+    upvote(){
+      if (this.hasAlreadyVoted()){
+        if (this.hasUpvote){
+          console.log("remove upvote");
+          this.removeVoteFrom("upvotes");
+          this.hasUpvote = false;
+        }
+        else {
+          // at this point it has an downvote
+          this.removeVoteFrom("downvotes");
+          this.votes.upvotes.push(this.skateparkInFocus['.key']);
+          this.saveVotesToLS();
+          this.hasDownVote = false;
+          this.hasUpvote = true;
+          console.log("toggle to upvote");
+        }
+      }
+      else {
+        this.votes.upvotes.push(this.skateparkInFocus['.key']);
+        this.saveVotesToLS();
+        this.hasUpvote = true;
+      }
+    },
+    hasAlreadyVoted(){
+      this.retreiveVotesOrInit();
+      this.votes.upvotes.forEach((up, i) => {
+        if (this.skateparkInFocus['.key'] == up){
+          this.hasUpvote = true;
+        }
+      });
+      this.votes.downvotes.forEach((down, i) => {
+        if (this.skateparkInFocus['.key'] == down){
+          this.hasDownVote = true;
+        }
+      });
+      return this.hasDownVote || this.hasUpvote;
+    },
+    removeVoteFrom(direction){
+      let index = this.votes[direction].indexOf(this.skateparkInFocus['.key']);
+      this.votes[direction].splice(index, 1);
+      this.saveVotesToLS();
+    },
+    retreiveVotesOrInit(){
+      let check = localStorage.getItem("skatelocate_votes");
+      if (!check){
+        this.votes = {
+          downvotes: [],
+          upvotes: []
+        };
+        this.saveVotesToLS();
+      }
+      this.votes = JSON.parse(localStorage.getItem("skatelocate_votes"));
+    },
+    saveVotesToLS(){
+      localStorage.setItem("skatelocate_votes", JSON.stringify(this.votes));
+    }
+  },
+  mounted(){
+    setTimeout(() => {
+      console.log(`TIMEOUT reporting on ${this.skateparkInFocus.skateparkName} with ${this.skateparkInFocus.skateparkVotes} votes & id of ${this.skateparkInFocus['.key']}`);
+      this.hasUpvote = false;
+      this.hasDownVote = false;
+      this.hasAlreadyVoted();
+    }, 400)
   }
 }
 </script>
@@ -39,19 +127,19 @@ export default {
 <style lang="css">
 
 .votes {
-  margin: 8px;
+  width: 75%;
   float: left;
-
 }
 
 .vote-button {
   outline: none;
   border: none;
   background: rgba(0,0,0,0.1);
-  padding: 8px;
+  padding: 4px;
   margin: 0px;
   font-family: "kalam";
-  border-radius: 8px;
+  border-radius: 4px;
+  font-size: 10px;
 }
 
 .vote-button:hover {

@@ -13,7 +13,8 @@
           <div class="skatepark-description">
             {{ skateparkInFocus.skateparkDesc }}
           </div>
-          <div class="skatepark-links">
+          <votes-section />
+          <div class="social-links">
             <a href="#"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
             <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
             <a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
@@ -27,7 +28,6 @@
         <div class="fix-bottom">
           <div class="skatepark-adder">Added by <span class="skatepark-adder-name">{{ skateparkInFocus.skateparkAdder }}</span> on {{ skateparkInFocus.timeAdded | dateFilter }}</div>
         </div>
-        <votes-section />
       </div>
       <div class="help-messages" v-if="needsMessage">
         {{ statusMessage }}
@@ -112,6 +112,12 @@ export default {
     width: 100%;
   }
 
+  .social-links {
+    width: 25%;
+    float: left;
+    font-size: 22px;
+  }
+
   .skatepark-adder {
     font-size: 12px;
     width: 100%;
@@ -138,11 +144,17 @@ export default {
     margin-left: 16px;
     padding-top: 8px;
     float: left;
+    width: 100%;
+  }
+
+  .skatepark-details .tags .tag:hover {
+    opacity: 1;
+    cursor: auto;
   }
 
   .grey-background {
     margin: 16px;
-    margin-right: 16px;
+    margin-bottom: 0px;
     padding: 16px;
     border: 1px solid #DDDDDD;
     float:left;
@@ -169,10 +181,6 @@ export default {
     height: auto;
     width: 100%;
   }
-
-  .skatepark-links {
-  }
-
 
   @media(max-width: 980px){
     .skatepark-images {
