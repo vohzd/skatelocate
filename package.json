@@ -10,6 +10,7 @@
   "license": "MIT",
   "repository": "https://github.com/vohzd/skatelocate.git",
   "dependencies": {
+    "countup": "^1.8.2",
     "dragscroll": "0.0.8",
     "firebase": "^4.3.0",
     "leaflet": "^1.2.0",

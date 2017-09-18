@@ -7,21 +7,25 @@
     </header>
 
     <section class="section-content">
-      <p>Howdy, thanks for trying out SKATELOCATE - Made for skaters to help locate locate spots easily.</p>
-      <p>When I came to London I had no idea there were so many, so thought it would be good to document them.</p>
-      <p>If you've got a spot to share, click 'add' from the right toolbar and double click (or double-tap if you're on a mobile) on the location of the park. You can add in tags and a short description, and also images too!</p>
-      <p>Built by Ben Smith <a href="https://vohzd.github.io" target="_blank">@vohzd</a> - Give me a shout if you've any feedback! Thanks!</p>
-      <div class="social-links">
-        <ul>
-          <a href="https://vohzd.github.io/#/home" target="_blank"><li><i class="fa fa-home" aria-hidden="true"></i></i></li></a>
-          <a href="https://github.com/vohzd" target="_blank"><li><i class="fa fa-github" aria-hidden="true"></i></li></a>
-          <a href="https://angel.co/vohzd" target="_blank"><li><i class="fa fa-angellist" aria-hidden="true"></i></i></li></a>
-          <a href="https://www.linkedin.com/in/benjamin-n-smith" target="_blank"><li><i class="fa fa-linkedin" aria-hidden="true"></i></i></li></a>
-          <a href="https://stackoverflow.com/users/3609943/vohzd" target="_blank"><li><i class="fa fa-stack-overflow" aria-hidden="true"></i></li></a>
-          <a href="https://twitter.com/vohzd" target="_blank"><li><i class="fa fa-twitter" aria-hidden="true"></i></i></li></a>
-        </ul>
-
-      </div>
+      <h3>Howdy, welcome to SKATELOCATE.</h3>
+      <section class="total-items lead-item">
+        <div class="circle" id="totalParks"></div> <span>locations currently tracked.</span>
+      </section>
+      <section class="about">
+        <p>When I came to London I had no idea there were so many, so thought it would be good to document them.</p>
+        <p>If you've got a spot to share, click 'add' from the right toolbar and double click (or double-tap if you're on a mobile) on the location of the park. You can add in tags and a short description, and also images too!</p>
+        <p>Built by Ben Smith <a href="https://vohzd.github.io" target="_blank">@vohzd</a> - Give me a shout if you've any feedback! Thanks!</p>
+        <div class="about-social-links">
+          <ul>
+            <a href="https://vohzd.github.io/#/home" target="_blank"><li><i class="fa fa-home" aria-hidden="true"></i></i></li></a>
+            <a href="https://github.com/vohzd" target="_blank"><li><i class="fa fa-github" aria-hidden="true"></i></li></a>
+            <a href="https://angel.co/vohzd" target="_blank"><li><i class="fa fa-angellist" aria-hidden="true"></i></i></li></a>
+            <a href="https://www.linkedin.com/in/benjamin-n-smith" target="_blank"><li><i class="fa fa-linkedin" aria-hidden="true"></i></i></li></a>
+            <a href="https://stackoverflow.com/users/3609943/vohzd" target="_blank"><li><i class="fa fa-stack-overflow" aria-hidden="true"></i></li></a>
+            <a href="https://twitter.com/vohzd" target="_blank"><li><i class="fa fa-twitter" aria-hidden="true"></i></i></li></a>
+          </ul>
+        </div>
+      </section>
     </section>
 
   </section>
@@ -32,30 +36,104 @@ import { mapActions, mapGetters }               from "vuex";
 
 import toggleNavPanel                           from "../ToggleNavPanel.vue";
 
+import CountUp                                  from "countup";
+
 export default {
   components: {
     "toggle-nav-panel": toggleNavPanel
   },
+  computed: {
+    ...mapGetters([
+      "skateparks"
+    ])
+  },
   data(){
     return {
+      countAnim: null,
+      total: 0
     }
   },
   methods: {
+    update(){
+      this.countAnim = new CountUp("totalParks", 0, this.skateparks.length);
+      this.countAnim.start();
+    }
+  },
+  mounted(){
+    this.update();
+  },
+  watch: {
+    skateparks(){
+      this.update();
+    }
   }
 }
 </script>
 
 <style lang="css">
 
-  .social-links ul {
+  .about-social-links ul {
   }
 
-  .social-links li {
+  .about-social-links li {
     list-style: none;
     display: inline;
     font-size: 24px;
     padding-right: 16px;
+  }
 
+  .lead-item {
+    background: rgba(0, 0, 0, 0.06);
+    width: calc(100% - 32px);
+    min-height: 64px;
+    border: 1px solid #DDDDDD;
+    white-space: pre-line;
+    padding: 8px;
+    float: left;
+  }
+
+  .lead-item .circle {
+    padding: 16px;
+    font-size: 24px;
+    border-radius: 50%;
+    background: white;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    float: left;
+  }
+
+  .lead-item span {
+    float: left;
+    line-height: 64px;
+    margin-left: 16px;
+  }
+
+  .about {
+    float: left;
+    margin-top: 16px;
+    width: calc(100% - 14px);
+  }
+
+  @media(max-width: 1320px){
+    .lead-item {
+      min-height: 32px;
+    }
+    .lead-item .circle {
+      padding: 8px;
+      font-size: 16px;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+    }
+    .lead-item span {
+      font-size: 12px;
+      display: inline;
+      margin-left: 8px;
+      line-height: 38px;
+
+    }
   }
 
 </style>
