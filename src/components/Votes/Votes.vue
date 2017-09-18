@@ -33,16 +33,31 @@ export default {
     }
   },
   methods: {
+    increment(int){
+      let newVotes = this.skateparkInFocus.skateparkVotes + int;
+
+      database.ref(`skateparks/${this.skateparkInFocus['.key']}/skateparkVotes`).set(
+        newVotes
+      );
+    },
+    decrement(int){
+      let newVotes = this.skateparkInFocus.skateparkVotes - int;
+      database.ref(`skateparks/${this.skateparkInFocus['.key']}/skateparkVotes`).set(
+        newVotes
+      );
+    },
     downvote(){
       if (this.hasAlreadyVoted()){
         if (this.hasDownVote){
           console.log("remove downvote");
+          this.increment(1);
           this.removeVoteFrom("downvotes");
           this.hasDownVote = false;
         }
         else {
           // at this point it has an upvote
           this.removeVoteFrom("upvotes");
+          this.decrement(2);
           this.votes.downvotes.push(this.skateparkInFocus['.key']);
           this.saveVotesToLS();
           this.hasDownVote = true;
@@ -51,6 +66,8 @@ export default {
         }
       }
       else {
+        console.log("add downvote");
+        this.decrement(1);
         this.votes.downvotes.push(this.skateparkInFocus['.key']);
         this.saveVotesToLS();
         this.hasDownVote = true;
@@ -60,12 +77,14 @@ export default {
       if (this.hasAlreadyVoted()){
         if (this.hasUpvote){
           console.log("remove upvote");
+          this.decrement(1);
           this.removeVoteFrom("upvotes");
           this.hasUpvote = false;
         }
         else {
           // at this point it has an downvote
           this.removeVoteFrom("downvotes");
+          this.increment(2);
           this.votes.upvotes.push(this.skateparkInFocus['.key']);
           this.saveVotesToLS();
           this.hasDownVote = false;
@@ -74,6 +93,7 @@ export default {
         }
       }
       else {
+        this.increment(1);
         this.votes.upvotes.push(this.skateparkInFocus['.key']);
         this.saveVotesToLS();
         this.hasUpvote = true;
