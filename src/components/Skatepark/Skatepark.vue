@@ -9,11 +9,15 @@
         <div class="skatepark-images dragscroll" v-if="skateparkInFocus.skateparkImages">
           <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
         </div>
-        <div class="skatepark-description">{{ skateparkInFocus.skateparkDesc }}</div>
-        <div class="skatepark-links">
-          <a href="#"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
-          <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-          <a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+        <div class="grey-background">
+          <div class="skatepark-description">
+            {{ skateparkInFocus.skateparkDesc }}
+          </div>
+          <div class="skatepark-links">
+            <a href="#"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+          </div>
         </div>
         <div class="tags">
           <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
@@ -23,9 +27,7 @@
         <div class="fix-bottom">
           <div class="skatepark-adder">Added by <span class="skatepark-adder-name">{{ skateparkInFocus.skateparkAdder }}</span> on {{ skateparkInFocus.timeAdded | dateFilter }}</div>
         </div>
-        <div class="upvote-button">
-          <button>Upvote! (2)</button>
-        </div>
+        <votes-section />
       </div>
       <div class="help-messages" v-if="needsMessage">
         {{ statusMessage }}
@@ -37,14 +39,19 @@
 <script>
 import { mapActions, mapGetters }               from "vuex";
 
+import instance                                 from "../../config/firebaseConfig.js";
+const database                                  = instance.database();
+
 import moment                                   from "moment";
 import dragscroll                               from "dragscroll";
 
 import toggleNavPanel                           from "../ToggleNavPanel.vue";
+import VotesSection                             from "../Votes/Votes.vue";
 
 export default {
   components: {
-    "toggle-nav-panel": toggleNavPanel
+    "toggle-nav-panel": toggleNavPanel,
+    "votes-section": VotesSection
   },
   computed: {
     ...mapGetters([
@@ -54,8 +61,8 @@ export default {
   },
   data(){
     return {
+      statusMessage: "",
       needsMessage: false,
-      statusMessage: ""
     }
   },
   filters: {
@@ -65,8 +72,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      "setSkateparkInFocus"
-    ])
+      "setSkateparkInFocus",
+    ]),
   },
   mounted(){
     dragscroll.reset();
@@ -74,7 +81,7 @@ export default {
       this.needsMessage = true;
       this.statusMessage = "Loading...";
     }
-    this.setSkateparkInFocus(this.$route.params.id)
+    this.setSkateparkInFocus(this.$route.params.id);
   },
   watch: {
     $route(to, from) {
@@ -127,17 +134,23 @@ export default {
   }
 
   .skatepark-details .tags {
-
     margin: 0px;
-    padding-left: 8px;
-    padding-top: 4px;
+    margin-left: 16px;
+    padding-top: 8px;
+    float: left;
+  }
 
+  .grey-background {
+    margin: 16px;
+    margin-right: 16px;
+    padding: 16px;
+    border: 1px solid #DDDDDD;
+    float:left;
+    background: rgba(0, 0, 0, 0.06);
   }
 
   .skatepark-description {
-    padding: 16px;
     font-size: 17px;
-    white-space: pre-line;
   }
 
   .skatepark-images {
@@ -145,9 +158,7 @@ export default {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    position: relative;
     width: 100%;
-    display: inline;
     float: left;
     height: 400px;
   }
@@ -160,26 +171,12 @@ export default {
   }
 
   .skatepark-links {
-    margin-left: 16px;
   }
 
-  .upvote-button {
-    margin: 8px;
-  }
-
-  .upvote-button button {
-    outline: none;
-    border: none;
-    background: rgba(0,0,0,0.1);
-    padding: 8px;
-    margin: 0px;
-    font-family: "kalam";
-    width: 25%;
-    border-radius: 8px;
-  }
 
   @media(max-width: 980px){
     .skatepark-images {
+      max-height: 300px;
     }
   }
 

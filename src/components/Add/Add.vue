@@ -145,6 +145,7 @@ export default {
           skateparkImages: this.cloudinaryImageURLs,
           skateparkName: this.mandatoryInfo.skateparkName,
           skateparkTags: this.mandatoryInfo.selectedTags,
+          skateparkVotes: 0,
           timeAdded: Date.now()
         });
         this.clearForm();
