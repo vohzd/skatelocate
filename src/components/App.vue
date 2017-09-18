@@ -154,6 +154,7 @@ export default {
 		line-height: 64px;
 		font-size: 32px;
 		text-align: center;
+		margin-bottom: 0px;
 	}
 
 	.details-panel {

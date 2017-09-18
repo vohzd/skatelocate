@@ -2,7 +2,9 @@
   <section>
     <header class="block-header">
       <toggle-nav-panel />
-      <h3 v-if="!needsMessage">{{ skateparkInFocus.skateparkName }}</h3>
+      <div v-if="!needsMessage" class="header-content">
+        <h3>{{ skateparkInFocus.skateparkName }}</h3>
+      </div>
     </header>
     <section class="skatepark-details">
       <div v-if="skateparkInFocus">
@@ -27,6 +29,9 @@
         </div>
         <div class="fix-bottom">
           <div class="skatepark-adder">Added by <span class="skatepark-adder-name">{{ skateparkInFocus.skateparkAdder }}</span> on {{ skateparkInFocus.timeAdded | dateFilter }}</div>
+        </div>
+        <div class="edit-button">
+          <button type="button" name="button">EDIT</button>
         </div>
       </div>
       <div class="help-messages" v-if="needsMessage">
@@ -106,6 +111,31 @@ export default {
 
 <style lang="css">
 
+  .header-content {
+    float: left;
+    width: 100%;
+  }
+
+  .edit-button button{
+    outline: none;
+    border: none;
+    background: rgba(0,0,0,0.06);
+    padding: 8px;
+    font-family: "kalam";
+    color: #444;
+    font-size: 18px;
+    position: absolute;
+    bottom: 21px;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #DDDDDD;
+  }
+
+  .edit-button button:hover{
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
   .fix-bottom {
     position: absolute;
     bottom: 0;
@@ -132,12 +162,8 @@ export default {
     background: rgba(0, 0, 0, 0.03);
     padding-left: 4px;
     padding-right: 4px;
-
   }
 
-  .skatepark-details {
-
-  }
 
   .skatepark-details .tags {
     margin: 0px;
@@ -159,6 +185,7 @@ export default {
     border: 1px solid #DDDDDD;
     float:left;
     background: rgba(0, 0, 0, 0.06);
+    width: calc(100% - 68px);
   }
 
   .skatepark-description {
