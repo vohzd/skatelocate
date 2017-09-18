@@ -1,43 +1,51 @@
 <template lang="html">
   <section>
+
     <header class="block-header">
       <toggle-nav-panel />
       <div v-if="!needsMessage" class="header-content">
         <h3>{{ skateparkInFocus.skateparkName }}</h3>
       </div>
     </header>
+
     <section class="skatepark-details">
+
       <div v-if="skateparkInFocus">
         <div class="skatepark-images dragscroll" v-if="skateparkInFocus.skateparkImages">
           <img v-for="skateparkImg in skateparkInFocus.skateparkImages" v-bind:src="skateparkImg" height="100%" />
         </div>
-        <div class="grey-background">
-          <div class="skatepark-description">
-            {{ skateparkInFocus.skateparkDesc }}
+        <div class="overflow-container">
+          <div class="grey-background">
+            <div class="skatepark-description">
+              {{ skateparkInFocus.skateparkDesc }}
+            </div>
+            <votes-section />
+            <div class="social-links">
+              <a v-bind:href="skateparkInFocus.websiteURL" v-if="skateparkInFocus.websiteURL"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+              <a v-bind:href="skateparkInFocus.facebookURL" v-if="skateparkInFocus.facebookURL"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+              <a v-bind:href="skateparkInFocus.youtubeURL" v-if="skateparkInFocus.youtubeURL"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+            </div>
           </div>
-          <votes-section />
-          <div class="social-links">
-            <a href="#"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
-            <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-            <a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+          <div class="tags">
+            <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
+              {{ tag }}
+            </div>
           </div>
-        </div>
-        <div class="tags">
-          <div v-for="tag in skateparkInFocus.skateparkTags" class="tag">
-            {{ tag }}
+          <div class="edit-button">
+            <button type="button" name="button" v-on:click="showEditMode">EDIT</button>
           </div>
         </div>
         <div class="fix-bottom">
           <div class="skatepark-adder">Added by <span class="skatepark-adder-name">{{ skateparkInFocus.skateparkAdder }}</span> on {{ skateparkInFocus.timeAdded | dateFilter }}</div>
         </div>
-        <div class="edit-button">
-          <button type="button" name="button">EDIT</button>
-        </div>
       </div>
+
       <div class="help-messages" v-if="needsMessage">
         {{ statusMessage }}
       </div>
+
     </section>
+
   </section>
 </template>
 
@@ -79,6 +87,14 @@ export default {
     ...mapActions([
       "setSkateparkInFocus",
     ]),
+    showEditMode(){
+      this.$router.push({
+        name: "editSkatepark",
+        params: {
+          id: this.skateparkInFocus[".key"]
+        }
+      });
+    }
   },
   mounted(){
     dragscroll.reset();
@@ -142,6 +158,14 @@ export default {
     width: 100%;
   }
 
+  .overflow-container {
+    height: calc(50vh - 138px);
+    overflow-y: auto;
+    float: left;
+    margin-top: 16px;
+    width: 100%;
+  }
+
   .social-links {
     width: 25%;
     float: left;
@@ -170,7 +194,6 @@ export default {
     margin-left: 16px;
     padding-top: 8px;
     float: left;
-    width: 100%;
   }
 
   .skatepark-details .tags .tag:hover {
@@ -179,7 +202,9 @@ export default {
   }
 
   .grey-background {
-    margin: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+
     margin-bottom: 0px;
     padding: 16px;
     border: 1px solid #DDDDDD;
@@ -211,17 +236,25 @@ export default {
 
   @media(max-width: 980px){
     .skatepark-images {
-      max-height: 300px;
+      max-height: 250px;
+    }
+    .overflow-container {
+      height: calc(70vh - 138px);
     }
   }
 
   @media(max-width: 780px){
     .skatepark-images {
+      max-height: 200px;
+    }
+    .skatepark-description {
+      font-size: 13px;
     }
   }
 
 	@media(max-width: 580px){
     .skatepark-images {
+      max-height: 120px;
     }
   }
 

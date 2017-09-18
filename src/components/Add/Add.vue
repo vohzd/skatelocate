@@ -380,41 +380,6 @@ export default {
     font-size: 12px;
   }
 
-  .side-by-side {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    border-top: 1px solid #DDDDDD;
-  }
-
-  .side-by-side .col {
-    float: left;
-    width: 50%;
-  }
-
-  .side-by-side .col input{
-    width: 100%;
-    height: 64px;
-    border: none;
-    background: rgba(107, 175, 126, 0.3);
-
-  }
-
-  .side-by-side .col input:hover{
-    cursor: pointer;
-    opacity: 0.8;
-    background: rgba(107, 175, 126, 0.25);
-  }
-
-  .side-by-side .col input:disabled{
-    cursor: not-allowed;
-    background: rgba(236, 210, 209, 0.4);
-  }
-
-  .side-by-side .col input:disabled:hover{
-    cursor: not-allowed;
-  }
-
   .intro-instructions {
     margin-top: 12px;
     margin-left: 12px;
@@ -422,7 +387,7 @@ export default {
   }
 
 
-  .tags {
+  .mandatory-form-fields .tags {
     margin-top: 8px;
     margin-left: 8px;
   }

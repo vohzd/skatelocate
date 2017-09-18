@@ -9,6 +9,7 @@ import Map 				        			from "../components/Map/Map.vue";
 import Recent 				        	from "../components/Recent/Recent.vue";
 import Search 				          from "../components/Search/Search.vue";
 import Skatepark 				        from "../components/Skatepark/Skatepark.vue";
+import EditSkatepark 				    from "../components/Skatepark/EditSkatepark.vue";
 import Top 				        			from "../components/Top/Top.vue";
 
 import store 	from "../vuex/store.js";
@@ -20,6 +21,7 @@ const routes = [
 	{ path: "/recent", component: Recent},
 	{ path: "/search", component: Search},
 	{ path: "/skatepark/:id", name: "skatepark", component: Skatepark},
+	{ path: "/skatepark/:id/edit", name: "editSkatepark", component: EditSkatepark },
 	{ path: "/top", component: Top}
 ];
 

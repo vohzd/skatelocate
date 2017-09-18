@@ -204,25 +204,62 @@ export default {
 		color: #746b78;
 	}
 
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+		float: left;
+  }
 
-	  .tags {
-	    display: flex;
-	    flex-wrap: wrap;
+  .tag {
+    font-size: 12px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    background: rgba(0,0,0,0.1);
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .tag:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+
+	  .side-by-side {
+	    width: 100%;
+	    position: absolute;
+	    bottom: 0;
+	    border-top: 1px solid #DDDDDD;
 	  }
 
-	  .tag {
-	    font-size: 12px;
-	    margin-right: 4px;
-	    margin-bottom: 4px;
-	    background: rgba(0,0,0,0.1);
-	    padding: 8px;
-	    border-radius: 16px;
+	  .side-by-side .col {
+	    float: left;
+	    width: 50%;
 	  }
 
-	  .tag:hover {
+	  .side-by-side .col input{
+	    width: 100%;
+	    height: 64px;
+	    border: none;
+	    background: rgba(107, 175, 126, 0.3);
+
+	  }
+
+	  .side-by-side .col input:hover{
 	    cursor: pointer;
 	    opacity: 0.8;
+	    background: rgba(107, 175, 126, 0.25);
 	  }
+
+	  .side-by-side .col input:disabled{
+	    cursor: not-allowed;
+	    background: rgba(236, 210, 209, 0.4);
+	  }
+
+	  .side-by-side .col input:disabled:hover{
+	    cursor: not-allowed;
+	  }
+
 
 
 	@media(max-width: 1320px){
