@@ -35,6 +35,7 @@ export default {
     ...mapGetters([
       "mapInstance",
       "isMapDoubleClickAllowed",
+      "matchingSkateparks",
       "skateparks"
     ])
   },
@@ -74,6 +75,14 @@ export default {
     },
     destroyNewSkateParkListener(){
       this.mapInstance.off("dblclick");
+    },
+    filterMarkersByMatches(){
+      if (this.matchingSkateparks.length === 0){
+        this.placeMarkers("all")
+      }
+      else {
+        this.placeMarkers("filtered")
+      }
     },
     getZoomOffsetLong(long){
       // TO DO REFACTOR THE SHIT OUT OF THIS
@@ -127,15 +136,22 @@ export default {
       this.addMapTiles();
       this.retreiveExistingSkateparks();
     },
-    placeMarkers(){
+    placeMarkers(which){
       // always start with a fresh set
       this.markercluster.removeLayers(this.markers);
       this.mapInstance.removeLayer(this.markercluster);
       this.markers = [];
       // create, push, and append
-      this.skateparks.forEach((marker, i) => {
-        this.markers.push(this.createMarker(marker))
-      });
+      if (which == "all"){
+        this.skateparks.forEach((marker, i) => {
+          this.markers.push(this.createMarker(marker))
+        });
+      }
+      else {
+        this.matchingSkateparks.forEach((marker, i) => {
+          this.markers.push(this.createMarker(marker))
+        });
+      }
       this.markercluster.addLayers(this.markers);
       this.mapInstance.addLayer(this.markercluster);
       // because i need to slightly offset where the default zoom goes to
@@ -163,8 +179,11 @@ export default {
     this.initMap();
   },
   watch: {
+    matchingSkateparks(){
+      this.filterMarkersByMatches();
+    },
     skateparks(){
-      this.placeMarkers();
+      this.placeMarkers("all");
     },
     isMapDoubleClickAllowed(){
       if (this.isMapDoubleClickAllowed){

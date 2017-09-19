@@ -67,7 +67,6 @@ export default {
       }
     },
     filterResultsByChosenTags(){
-      console.log(this.matchingSkateparks);
       this.isPending = true;
       if (this.searchString.length === 0 && this.selectedTags.length === 0){
         this.reset();
