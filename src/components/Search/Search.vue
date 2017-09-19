@@ -41,6 +41,7 @@ export default {
   computed: {
     ...mapGetters([
       "availableSkateparkTags",
+      "matchingSkateparks",
       "skateparks"
     ])
   },
@@ -49,10 +50,13 @@ export default {
       isPending: false,
       searchString: "",
       selectedTags: [],
-      matchingSkateparks: []
+      filteredMatches: []
     }
   },
   methods: {
+    ...mapActions([
+      "setMatchingSkateparks"
+    ]),
     isTagInArray(tag){
       let index = this.selectedTags.indexOf(tag);
       if (index === -1){
@@ -63,6 +67,7 @@ export default {
       }
     },
     filterResultsByChosenTags(){
+      console.log(this.matchingSkateparks);
       this.isPending = true;
       if (this.searchString.length === 0 && this.selectedTags.length === 0){
         this.reset();
@@ -74,21 +79,22 @@ export default {
         else {
           let searchPool = [];
           if (!this.searchString){
-            this.matchingSkateparks = [];
+            this.filteredMatches = [];
             searchPool = this.skateparks;
           }
           else {
             searchPool = this.matchingSkateparks;
-            this.matchingSkateparks = [];
+            this.filteredMatches = [];
           }
           searchPool.forEach((skatepark, i) => {
             let match = skatepark.skateparkTags.filter((current) => {
               return this.selectedTags.indexOf(current) > -1;
             }).length == this.selectedTags.length;
             if (match){
-              this.matchingSkateparks.push(skatepark);
+              this.filteredMatches.push(skatepark);
             }
           });
+          this.setMatchingSkateparks(this.filteredMatches);
           this.isPending = false;
         }
       }
@@ -105,27 +111,28 @@ export default {
         else {
           let searchPool = [];
           if (!this.selectedTags.length){
-            this.matchingSkateparks = [];
+            this.filteredMatches = [];
             searchPool = this.skateparks;
           }
           else {
             searchPool = this.matchingSkateparks;
-            this.matchingSkateparks = [];
+            this.filteredMatches = [];
           }
           searchPool.forEach((skatepark, i) => {
             const lower = skatepark.skateparkName.toLowerCase();
             const search = this.searchString.toLowerCase();
             if (lower.indexOf(search) > -1){
-              this.matchingSkateparks.push(skatepark);
+              this.filteredMatches.push(skatepark);
             }
           });
+          this.setMatchingSkateparks(this.filteredMatches);
           this.isPending = false;
         }
       }
     },
     reset(){
       this.isPending = false;
-      this.matchingSkateparks = [];
+      this.setMatchingSkateparks([]);
     },
     toggleThisTag(tag){
       let test = this.isTagInArray(tag);

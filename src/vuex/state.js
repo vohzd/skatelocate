@@ -9,6 +9,7 @@ export default {
 	pendingNewParkLatLng: null,
 	notificationText: "",
 	numberClientsConnected: 0,
+	matchingSkateparks: [],
 	mapInstance: null,
 	skateparks: [],
 	skateparkInFocus: 0

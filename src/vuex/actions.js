@@ -37,6 +37,9 @@ export default {
   setMapInstance({commit}, instance){
     commit("SET_MAP_INSTANCE", instance);
   },
+  setMatchingSkateparks({commit}, array){
+    commit("SET_MATCHING_SKATEPARKS", array);
+  },
   setSkateparkInFocus({commit}, skateparkId){
     state.skateparks.forEach((skatepark, i) => {
       if (skatepark[".key"] === skateparkId){

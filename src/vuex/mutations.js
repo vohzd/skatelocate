@@ -19,6 +19,9 @@ export default {
   SET_MAP_INSTANCE(state, instance){
     state.mapInstance = instance;
   },
+  SET_MATCHING_SKATEPARKS(state, array){
+    state.matchingSkateparks = array;
+  },
   SET_NOTIFICATION_TEXT(state, text){
     state.notificationText = text;
   },

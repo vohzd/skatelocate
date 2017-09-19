@@ -11,6 +11,7 @@ export default {
 	notificationText: (state) => state.notificationText,
 	numberClientsConnected: (state) => state.numberClientsConnected,
 	mapInstance: (state) => state.mapInstance,
+	matchingSkateparks: (state) => state.matchingSkateparks,
 	skateparks: (state) => state.skateparks,
 	skateparkInFocus: (state) => state.skateparkInFocus
 }
