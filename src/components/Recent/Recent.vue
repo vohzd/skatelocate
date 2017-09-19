@@ -56,7 +56,7 @@ export default {
         (skatepark.skateparkLocation[1] + 0.033)
       ];
       this.mapInstance.flyTo(slightlyOffset, 14, {
-        duration: 1
+        duration: 3
       });
     },
     pullMostRecent(){

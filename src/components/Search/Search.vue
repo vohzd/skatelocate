@@ -23,7 +23,7 @@
           Searching...
         </div>
         <div class="results" v-if="!isPending">
-          <div class="result-item" v-for="skatepark in matchingSkateparks">{{ skatepark.skateparkName }}</div>
+          <div class="result-item" v-for="skatepark in matchingSkateparks"  v-on:click="jumpToThisSkatepark(skatepark)">{{ skatepark.skateparkName }}</div>
         </div>
       </div>
     </section>
@@ -41,6 +41,7 @@ export default {
   computed: {
     ...mapGetters([
       "availableSkateparkTags",
+      "mapInstance",
       "matchingSkateparks",
       "skateparks"
     ])
@@ -132,6 +133,22 @@ export default {
     reset(){
       this.isPending = false;
       this.setMatchingSkateparks([]);
+      this.filteredMatches = [];
+    },
+    jumpToThisSkatepark(skatepark){
+      this.$router.push({
+        name: "skatepark",
+        params: {
+          id: skatepark[".key"]
+        }
+      });
+      let slightlyOffset = [
+        skatepark.skateparkLocation[0],
+        (skatepark.skateparkLocation[1] + 0.033)
+      ];
+      this.mapInstance.flyTo(slightlyOffset, 14, {
+        duration: 3
+      });
     },
     toggleThisTag(tag){
       let test = this.isTagInArray(tag);
@@ -148,8 +165,14 @@ export default {
       this.filterResultsByChosenTags();
     }
   },
+  beforeDestroy(){
+    this.reset();
+  },
   mounted(){
     this.reset();
+    this.mapInstance.flyTo([0, 180], 2, {
+      duration: 3
+    });
   },
   watch: {
     searchString(){
@@ -231,6 +254,11 @@ export default {
     font-size: 18px;
     border: 1px solid #DDDDDD;
     float: left;
+  }
+
+  .result-item:hover {
+    cursor: pointer;
+    opacity: 0.7;
   }
 
 </style>
