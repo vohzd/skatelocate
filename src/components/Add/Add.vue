@@ -5,26 +5,29 @@
       <h3>ADD NEW</h3>
     </header>
     <section class="add-skatepark-interface">
-      <ol class="steps-status">
-        <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 1, 'step-completed': isStepGreaterThan(1)}">
+      <div class="steps-status">
+        <div class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 1, 'step-completed': isStepGreaterThan(1)}">
+          <div class="circle">1</div>
           <div class="step-label">
             Select Location
             <i class="fa fa-check" aria-hidden="true" v-if="isStepGreaterThan(1)"></i>
           </div>
-        </li>
-        <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 2, 'step-completed': isStepGreaterThan(2)}" v-on:click="goToStep(2)">
+        </div>
+        <div class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 2, 'step-completed': isStepGreaterThan(2)}" v-on:click="goToStep(2)">
+          <div class="circle">2</div>
           <div class="step-label">
             Mandatory Info
             <i class="fa fa-check" aria-hidden="true" v-if="isStepGreaterThan(2)"></i>
           </div>
-        </li>
-        <li class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 3, 'step-completed': isStepGreaterThan(3)}" v-on:click="goToStep(3)">
+        </div>
+        <div class="step" v-bind:class="{ 'step-selected': currentAddSkateparkStep == 3, 'step-completed': isStepGreaterThan(3), 'step-disabled': !canProceed}" v-on:click="goToStep(3)">
+          <div class="circle">3</div>
           <div class="step-label">
             Optional Images
             <i class="fa fa-check" aria-hidden="true" v-if="isStepGreaterThan(3)"></i>
           </div>
-        </li>
-      </ol>
+        </div>
+      </div>
       <div class="">
         <div class="intro-instructions" v-show="currentAddSkateparkStep == 1">
           <p>To add a skatepark, please locate it on the map, and double-click on its location.</p>
@@ -181,7 +184,7 @@ export default {
       }
     },
     goToStep(step){
-      if (this.currentAddSkateparkStep > 1){
+      if (this.currentAddSkateparkStep > 1 && this.canProceed){
         this.setCurrentStep(step);
       }
     },
@@ -263,44 +266,55 @@ export default {
      display: flex;
      flex-wrap: wrap;
      border-bottom: 1px solid #DDDDDD;
-
-  }
-
-   .steps-status li{
-     list-style-position: inside;
-     font-size: 32px;
-     padding: 0px;
-     margin: 0;
-     width: calc(33% - 8px);
-     padding-left: 8px;
   }
 
   .step {
     background: rgba(0,0,0,0.05);
-    font-size: 12px;
+    font-size: 32px;
+    padding: 0px;
+    margin: 0;
+    width: calc(33% - 6px);
+    padding-left: 8px;
+    float: left;
+    line-height: 64px;
+    border-right: 1px solid #DDDDDD;
+
   }
+
+  .step .circle {
+    width: 48px;
+    height: 48px;
+    background: white;
+    line-height: 48px;
+    border-radius: 50%;
+    float: left;
+    margin-top: 8px;
+    text-align: center;
+    font-size: 22px;
+  }
+
+
 
   .steps-status .step-completed:nth-child(1){
     cursor: not-allowed;
   }
 
-  .steps-status .step-completed:nth-child(2), .step:nth-child(3):hover{
-    cursor: pointer;
-  }
 
   .step-label {
     letter-spacing: 1px;
+    float: left;
+    margin-left: 16px;
   }
 
   .step i {
     font-size: 16px;
-    margin: 18px;
+    margin: 22px;
     opacity: 0.5;
     float: right;
   }
 
   .step-selected {
-    background: rgba(107, 175, 126, 0.4);
+    background: rgba(107, 175, 126, 0.25);
   }
 
   .step-completed {
@@ -381,8 +395,8 @@ export default {
   }
 
   .intro-instructions {
-    margin-top: 12px;
-    margin-left: 12px;
+    margin-top: 32px;
+    margin-left: 16px;
 
   }
 
@@ -397,19 +411,31 @@ export default {
     background: rgba(107, 175, 126, 0.4);
   }
 
+  .step .step-disabled:hover{
+    opacity: 0.1;
+  }
+
+  .step .step-disabled:hover{
+    cursor: not-allowed;
+  }
 
 
 
   @media(max-width: 1320px){
-    .steps-status li{
+    .steps-status .step{
        width: 100%;
-       font-size: 26px;
     }
+
+   .steps-status .step .step-label {
+     font-size: 14px;
+   }
   }
 
   @media(max-width: 768px){
-    .steps-status li{
-       font-size: 16px;
+    .steps-status .step{
+    }
+    .steps-status .step .step-label {
+      font-size: 14px;
     }
   }
 
