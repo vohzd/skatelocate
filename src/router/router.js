@@ -26,7 +26,8 @@ const routes = [
 ];
 
 const router = new VueRouter({
-	base: __dirname + "/",
+	mode: "history",
+	base: __dirname + "/skatelocate/",
 	routes
 });
 
