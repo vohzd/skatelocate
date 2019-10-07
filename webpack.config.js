@@ -1,7 +1,5 @@
 var path = require("path");
 var webpack = require("webpack");
-var PrerenderSpaPlugin = require('prerender-spa-plugin');
-
 
 module.exports = {
   entry: "./src/main.js",
@@ -76,12 +74,6 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new PrerenderSpaPlugin(
-      // Path to compiled app
-      path.join(__dirname, './dist'),
-      // List of endpoints you wish to prerender
-      [ '/' ]
-    )
+    new webpack.optimize.ModuleConcatenationPlugin()
   ])
 }

@@ -21,13 +21,13 @@
   	<router-link class="router-link" to="/top" tag="div">
       <div class="vertical-button">
         <div class="label">TOP</div>
-        <i class="fa fa-line-chart" aria-hidden="true"></i>
+        <i class="fa fa-chart-line" aria-hidden="true"></i>
       </div>
     </router-link>
   	<router-link class="router-link" to="/recent" tag="div">
       <div class="vertical-button">
         <div class="label">RECENT</div>
-        <i class="fa fa-star-o" aria-hidden="true"></i>
+        <i class="fa fa-star" aria-hidden="true"></i>
       </div>
     </router-link>
   </nav>

@@ -19,7 +19,7 @@ import moment                       from "moment";
  * LEAFLET STUFF
  */
 import L                            from "leaflet";
-import                              "leaflet/dist/leaflet.css";
+//import                              "leaflet/dist/leaflet.css";
 import leafletMarkerCluster         from "leaflet.markercluster";
 import                              "leaflet.markercluster/dist/MarkerCluster.css";
 import                              "leaflet.markercluster/dist/MarkerCluster.Default.css";
@@ -62,8 +62,10 @@ export default {
                   .bindTooltip(marker.skateparkName, { permanent: true })
                   .setLatLng([marker.skateparkLocation[0], marker.skateparkLocation[1]])
                   .on("click", (event) => {
+                    console.log(event)
                     let offset = this.getZoomOffsetLong(event.latlng.lng);
-                    this.mapInstance.setView([event.latlng.lat, (event.latlng.lng + offset)]);
+                    console.log("you are here....")
+                    //this.mapInstance.setView([event.latlng.lat, event.latlng.lng]);
                     // let the router handle the retreival of skatepark metadata
                     this.$router.push({
                       name: "skatepark",
@@ -85,8 +87,10 @@ export default {
       }
     },
     getZoomOffsetLong(long){
+      return long;
       // TO DO REFACTOR THE SHIT OUT OF THIS
       // returns a value to offset based on the current zoom level (as higher values go into finer detail)
+      /*
       let zoomLevel = this.mapInstance.getZoom();
       let offset = 0;
       if (zoomLevel == 18){
@@ -125,7 +129,7 @@ export default {
       if (zoomLevel == 7){
         offset = 4.6
       }
-      return offset;
+      return offset;*/
     },
     initMap(){
       this.setMapInstance(L.map("map").setView([0, 180], 2));

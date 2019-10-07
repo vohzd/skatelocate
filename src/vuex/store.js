@@ -1,7 +1,7 @@
 import Vue 										from "vue";
 import Vuex 									from "vuex";
 
-import { firebaseMutations }  from "vuexfire";
+import { vuexfireMutations }  from "vuexfire";
 import firebase 							from "firebase";
 
 import state 									from "./state.js";
@@ -15,7 +15,7 @@ export default new Vuex.Store({
 	state,
 	mutations: {
 		...myMutations,
-		...firebaseMutations
+		...vuexfireMutations
 	},
 	actions,
 	getters

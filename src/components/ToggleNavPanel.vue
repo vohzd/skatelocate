@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="toggle-nav-element" v-on:click="toggleDetailsPanelVisibility">
-    <i class="fa fa-times" aria-hidden="true" v-if="isDetailsShown"></i>
-    <i class="fa fa-angle-left" aria-hidden="true" v-if="!isDetailsShown"></i>
+    <span v-show="isDetailsShown"><i class="fa fa-times" aria-hidden="true"></i></span>
+    <span v-show="!isDetailsShown"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
   </div>
 </template>
 

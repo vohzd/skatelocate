@@ -1,6 +1,5 @@
 <template lang="html">
   <section>
-
     <header class="block-header">
       <toggle-nav-panel />
       <h3 class="site-name"><img src="../../assets/img/sllogo.png" class="skate-icon" alt="skateboard icon" width="240px"></h3>

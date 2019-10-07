@@ -32,6 +32,8 @@ export default {
     state.skateparkInFocus = skatepark;
   },
   TOGGLE_DETAILS_PANEL_VISIBILITY(state){
+    console.log(state.isDetailsShown);
+    console.log("yep")
     state.isDetailsShown = !state.isDetailsShown;
   }
 };

@@ -2,13 +2,13 @@
 	<div v-bind:class="currentCursor">
 		<!--<router-view />-->
 		<!-- main persistent map -->
-		<leaflet-map />
+		<leaflet-map /></leaflet-map>
 		<!-- actually the details panel -->
-		<router-view class="details-panel" v-bind:class="{ 'hide-panel' : !isDetailsShown }"/>
+		<router-view class="details-panel" v-bind:class="{ 'hide-panel' : !isDetailsShown }"/></router-view>
 		<!-- persistent right-hand nav -->
-		<navigation-panel />
+		<navigation-panel></navigation-panel>
 		<!-- notifications that pop up every now and again -->
-		<notification-popup v-bind:class="{ 'hide-popup' : !isNotificationPopUpShown }"/>
+		<notification-popup v-bind:class="{ 'hide-popup' : !isNotificationPopUpShown }"/></notification-popup>
 	</div>
 </template>
 
