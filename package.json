@@ -1,7 +1,7 @@
 {
   "name": "skatelocate",
   "description": "find some skateables",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Ben (vohzd)",
   "scripts": {
     "dev": "parcel index.html",
@@ -42,6 +42,7 @@
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "node-sass": "^4.12.0",
+    "parcel-bundler": "^1.12.4",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "vue-loader": "^15.7.1",
